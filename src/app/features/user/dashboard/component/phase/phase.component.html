@@ -1,0 +1,49 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    @for (item of cardData; track item) {
+        <div class="p-4 shadow-md rounded-lg border border-gray-200 flex justify-between items-center cursor-pointer hover:shadow-lg transition-shadow" (click)="goToReports(item)">
+            <div>
+                <h3 class="font-medium text-sm md:text-base">{{ item.name }}</h3>
+                <p class="text-base md:text-lg font-medium pt-2">{{ (item.count % 1 !== 0) ? item.count?.toFixed(2) : item.count}}</p>
+            </div>
+            <div class="w-8 h-8 md:w-10 md:h-10 text-gray-600">
+                <img [src]="item?.icon" alt="" class="w-full h-full object-contain">
+            </div>
+        </div>
+    }
+</div>
+
+<div class="mt-6 md:mt-8">
+    <h3 class="text-base md:text-lg font-semibold text-gray-700">Master Plan Status :-</h3>
+    <hr class="mt-2 border-t-2 border-gray-300">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+        @for (item of masterData; track item) {
+            <div class="p-4 shadow-md rounded-lg border border-gray-200 flex justify-between items-center hover:shadow-lg transition-shadow">
+                <div>
+                    <h3 class="font-medium text-sm md:text-base">{{item?.name}} {{item?.availbility}}</h3>
+                    <p class="text-base md:text-lg font-medium pt-2">{{ (item.count % 1 !== 0) ? item.count?.toFixed(2) : item.count}}</p>
+                </div>
+                <div class="w-8 h-8 md:w-10 md:h-10 text-gray-600">
+                    <img [src]="item?.icon" alt="" class="w-full h-full object-contain">
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mt-6 md:mt-8">
+    <h3 class="text-base md:text-lg font-semibold text-gray-700">Plot Categories :-</h3>
+    <hr class="mt-2 border-t-2 border-gray-300">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+        @for (item of categoriesData; track item) {
+            <div class="p-4 shadow-md rounded-lg border border-gray-200 flex justify-between items-center hover:shadow-lg transition-shadow">
+                <div>
+                    <h3 class="font-medium text-sm md:text-base">{{item?.name}} {{item?.availbility}}</h3>
+                    <p class="text-base md:text-lg font-medium pt-2">{{ (item.count % 1 !== 0) ? item.count?.toFixed(2) : item.count}}</p>
+                </div>
+                <div class="w-8 h-8 md:w-10 md:h-10 text-gray-600">
+                    <img [src]="item?.icon" alt="" class="w-full h-full object-contain">
+                </div>
+            </div>
+        }
+    </div>
+</div>

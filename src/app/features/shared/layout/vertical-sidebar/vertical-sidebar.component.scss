@@ -1,0 +1,14 @@
+.vertical-sidebar {
+    background: #6e75e6 !important;
+    z-index: 50;
+    
+    @media (max-width: 768px) {
+        width: 100%;
+        max-width: 280px;
+    }
+}
+
+.logo-part {
+    filter: brightness(0) saturate(100%) invert(54%) sepia(9%) saturate(4547%) hue-rotate(207deg) brightness(99%) contrast(93%);
+    max-height: 40px;
+}

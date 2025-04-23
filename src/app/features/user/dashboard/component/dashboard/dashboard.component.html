@@ -1,0 +1,40 @@
+<div class="flex justify-between border-gray-200">
+    <nav class="flex tab space-x-4">
+        @for (tab of tabs; track tab.id) {
+            <button (click)="setActiveTab(tab.id)" [class]="activeTab === tab.id 
+              ? 'border-b-2 border-white-500 text-white' 
+              : 'text-white hover:text-white hover:border-white-300'"
+                class="px-1 font-medium focus:outline-none">
+                {{ tab.title }}
+            </button>
+        }
+    </nav>
+    <!-- <nav class="flex tab space-x-4">
+        @for (tab of tabHeadings; track tab.id) {
+            <button (click)="setMeasureTab(tab.id)" [class]="measureData === tab.id 
+              ? 'border-b-2 border-white-500 text-white' 
+              : 'text-white hover:text-white hover:border-white-300'"
+                class="px-1 font-medium focus:outline-none">
+                {{ tab.title }}
+            </button>
+        }
+    </nav> -->
+</div>
+
+<div class="mt-4">
+    @if (activeTab === 'Phase1') {
+        @if (spinnerLoading) {
+            <app-loader />
+        } @else {
+            <app-phase [cardData]="cardData" [masterData]="masterData" [categoriesData]="categoriesData" />
+        }
+    }
+
+    @if (activeTab === 'Phase2') {
+        @if (spinnerLoading) {
+            <app-loader />
+        } @else {
+            <app-phase [cardData]="cardData" [masterData]="masterData" [categoriesData]="categoriesData"/>
+        }
+    }
+</div>

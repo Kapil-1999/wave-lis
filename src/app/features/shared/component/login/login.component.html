@@ -1,0 +1,51 @@
+<div class="fixed z-50 left-0 top-0 right-0 bottom-0 backdrop-blur-sm bg-black/30 flex justify-center items-center">
+    <form [formGroup]="loginForm"
+        class="relative bg-white p-10 rounded-xl text-slate-500 w-[80%] sm:w-[350px] md:w-[400px]"
+        (ngSubmit)="onLogin($event, loginForm.value)">
+        <div class="flex justify-center mb-3">
+            <img class="h-11 md:h-16 w-auto logo-part" src="images/wave.png" alt="Wave Logo" />
+        </div>
+        <h1 class="text-center text-2xl text-neutral-700 font-medium">
+            Login
+        </h1>
+        <div class="border px-6 py-2.5 flex items-center gap-2 rounded-md mt-4">
+            <img src="images/user_icon.png" alt="" />
+            <input type="email" class="outline-none text-md" placeholder="Enter email" name="name"
+                formControlName="username" required />
+        </div>
+        @if (loginForm.get('username')?.touched && loginForm.get('username')?.invalid) {
+            <div class="text-red-500 text-sm mt-1 ml-2">
+                @if (loginForm.get('username')?.touched || loginForm.get('username')?.dirty) {
+                    @if (loginForm.get('username')?.hasError('required')) {
+                      <span class="text-danger">Email is required</span>
+                    } @else if (loginForm.get('username')?.hasError('email')) {
+                      <span class="text-danger">Please enter a valid email address</span>
+                    }
+                  }
+            </div>
+        }
+
+        <div class="border px-6 py-2.5 flex items-center gap-2 rounded-md mt-4">
+            <img src="images/lock_icon.svg" alt="" />
+            <input [type]="showPassword ? 'text' : 'password'" class="outline-none text-md w-full" 
+                placeholder="Password" name="password" formControlName="password" required />
+            <i (click)="togglePassword()" 
+               [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"
+               class="cursor-pointer text-gray-500 hover:text-gray-700">
+            </i>
+        </div>
+        @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+            <div class="text-red-500 text-sm mt-1 ml-2">
+                @if (loginForm.get('password')?.errors?.['required']) {
+                    <span>Password is required</span>
+                }
+            </div>
+        }
+
+        <button type="submit" class="bg-blue-600 w-full text-white py-2.5 rounded-md cursor-pointer mt-4 text-md">
+            Login
+        </button>
+
+        <img (click)="closeLogin()" class="absolute top-5 right-5 cursor-pointer" src="images/cross_icon.svg" alt="" />
+    </form>
+</div>

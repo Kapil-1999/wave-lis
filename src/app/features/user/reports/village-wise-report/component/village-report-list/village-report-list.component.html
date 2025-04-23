@@ -1,0 +1,111 @@
+<div class="card">
+    <div class="card-header">
+        <div class="header-part">
+            <span>Village Wise Report</span>
+            <div class="counting">
+                <span>
+                    {{ pagesize.count > 0 ? startValue : 0 }} -
+                    {{ pagesize.count > 0 ? lastValue : 0 }}
+                    OF {{ pagesize.count > 0 ? pagesize.count : 0 }} Village Report
+                </span>
+            </div>
+            @if (pagesize.count && pagesize.count > 0) {
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <pagination-controls id="vilrepID" [maxSize]="10" [responsive]="true" [nextLabel]="''"
+                        [previousLabel]="''" (pageChange)="onTablePageChange($event)">
+                    </pagination-controls>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="searchForm">
+            <div class="flex flex-col md:flex-row gap-3 mb-4">
+                <div class="w-full md:w-1/4">
+                    <ngx-select-dropdown 
+                        [config]="config" 
+                        [options]="villageList" 
+                        formControlName="village" 
+                        (change)="onChangeVillage($event)">
+                    </ngx-select-dropdown>
+                </div>
+                <div class="w-full md:w-1/4">
+                    <ngx-select-dropdown 
+                        [config]="config1"  
+                        [options]="khasraList" 
+                        formControlName="khasra" 
+                        (change)="onChangeKhasra($event)">
+                    </ngx-select-dropdown>
+                </div>
+                <div class="hidden md:block md:w-1/4"></div>
+                <div class="w-full md:w-1/4 flex flex-col sm:flex-row gap-4 sm:justify-end">
+                    <div class="flex items-center justify-between sm:justify-start space-x-2">
+                        <label for="itemsPerPage" class="text-sm text-gray-700 whitespace-nowrap">Items per page:</label>
+                        <select id="itemsPerPage"
+                            class="block w-20 p-2 bg-white border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                            [(ngModel)]="pagesize.limit" 
+                            [ngModelOptions]="{standalone: true}"  
+                            (change)="onPageSizeChange($event)">
+                            <option *ngFor="let size of [25, 50, 100]" [value]="size">{{ size }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="overflow-auto">
+                    <div id="datatable_wrapper">
+                        @if (isLoading) {
+                            <app-loader />
+                        } @else {
+                            <table id="datatable" class="table table-striped nowrap dataTable no-footer dtr-inline"
+                                role="grid" #TABLE aria-describedby="datatable_info" style="width: 100%" width="100%">
+                                <thead>
+                                    <tr role="row">
+                                        @for (vehicleHeading of columns; track $index) {
+                                        <th>
+                                            <span>{{ vehicleHeading?.title }}</span>
+                                        </th>
+                                        }
+                                    </tr>
+                                </thead>                                
+                                <tbody>
+                                    @for (item of acquisitionList | paginate: {id: 'vilrepID',
+                                    itemsPerPage: pagesize.limit, currentPage: pagesize.offset, totalItems:
+                                    pagesize.count}; track $index) {
+                                    <tr>
+                                        <td>{{ (pagesize.offset - 1) * pagesize.limit + $index + 1 }}</td>
+                                        <td>{{item?.village_name || 'NA'}}</td>
+                                        <td>{{item?.farmar_name || 'NA'}}</td>
+                                        <td>{{item?.project_area || 'NA'}}</td>
+                                        <td>{{item?.khasra_no || 'NA'}}</td>
+                                        <td>{{item?.purchaseregistery || 0 }}</td>
+                                        <td>{{item?.purchase_karar || 0 }}</td>
+                                        <td>{{item?.balance_registery || 0}}</td>
+                                        <td>{{item?.balance_karar || 0 }}</td>
+                                        <td>{{item?.lmc_resume || 0}}</td>
+                                        <td>{{item?.lmc_leased || 0 }}</td>
+                                        <td>{{item?.left_in_abadi || 0 }}</td>
+                                        <td>{{item?.abadi_alloted || 0 }}</td>
+                                        <td>{{item?.lmc_area || 'NA'}}</td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                           
+                        }
+                    </div>
+                </div>
+                @if(!acquisitionList?.length) {
+                    <div class="text-center py-4 text-gray-500">
+                        No Village Report Available
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,1 @@
+export type SidebarLayoutType = 'horizontal' | 'vertical';

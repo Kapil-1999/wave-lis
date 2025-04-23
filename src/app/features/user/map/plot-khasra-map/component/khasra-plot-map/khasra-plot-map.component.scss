@@ -1,0 +1,8 @@
+#khasra_map {
+    width: 100%;
+    height: calc(100vh - 165px);
+}
+
+:host-context(.vertical-layout) #khasra_map {
+    height: calc(100vh - 83px); 
+}

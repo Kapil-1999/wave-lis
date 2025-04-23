@@ -1,0 +1,114 @@
+<div class="flex modal-header text-center">
+    <h5>{{label}} Khasra</h5>
+    <div class="close-modal" (click)="close()">
+        <i class="fa fa-close" style="cursor: pointer;"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <form [formGroup]="khasraForm" (ngSubmit)="submit($event,khasraForm.value)">
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Village</label>
+                <ngx-select-dropdown [config]="config" [options]="villageList" formControlName="village">
+                </ngx-select-dropdown>
+                @if (khasraForm.get('village')?.invalid && (khasraForm.get('village')?.dirty ||
+                khasraForm.get('village')?.touched)) {
+                <span class="text-danger mt-2">
+                    Village is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Khasra No.</label>
+                <input type="text" class="form-control" formControlName="khasra_no" placeholder="Enter Khasra No." />
+                @if(khasraForm.get('khasra_no')?.invalid && (khasraForm.get('khasra_no')?.dirty ||
+                khasraForm.get('khasra_no')?.touched)) {
+                <span class="text-danger mt-2">
+                    Khasra No. is Required
+                </span>
+                }
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Khata No.</label>
+                <input type="text" class="form-control" formControlName="khata_no" placeholder="Enter Khata No." />
+                @if(khasraForm.get('khata_no')?.invalid && (khasraForm.get('khata_no')?.dirty ||
+                khasraForm.get('khata_no')?.touched)) {
+                <span class="text-danger mt-2">
+                    Khata No. is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Registration Date</label>
+                <input type="date" class="form-control" formControlName="registration_date" />
+                @if (khasraForm.get('registration_date')?.invalid && (khasraForm.get('registration_date')?.dirty ||
+                khasraForm.get('registration_date')?.touched)) {
+                <span class="text-danger mt-2">
+                    Registration Date is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Total Area</label>
+                <input type="number" class="form-control" formControlName="total_area" placeholder="Enter Total Area" />
+                @if(khasraForm.get('total_area')?.invalid && (khasraForm.get('total_area')?.dirty ||
+                khasraForm.get('total_area')?.touched)) {
+                <span class="text-danger mt-2">
+                    Total Area is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Project Area</label>
+                <input type="number" class="form-control" formControlName="project_area"
+                    placeholder="Enter Project Area" />
+                    @if(khasraForm.get('project_area')?.invalid && (khasraForm.get('project_area')?.dirty ||
+                    khasraForm.get('project_area')?.touched)) {
+                    <span class="text-danger mt-2">
+                        Project Area is Required
+                    </span>
+                    }
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Notified Area</label>
+                <input type="number" class="form-control" formControlName="notified_area"
+                    placeholder="Enter Notified Area" />
+                    @if(khasraForm.get('notified_area')?.invalid && (khasraForm.get('notified_area')?.dirty ||
+                    khasraForm.get('notified_area')?.touched)) {
+                    <span class="text-danger mt-2">
+                        Notified Area is Required
+                    </span>
+                    }
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-label">LMC Area</label>
+                <input type="number" class="form-control" formControlName="lmc_area" placeholder="Enter LMC Area" />
+                @if(khasraForm.get('lmc_area')?.invalid && (khasraForm.get('lmc_area')?.dirty ||
+                khasraForm.get('lmc_area')?.touched)) {
+                <span class="text-danger mt-2">
+                    LMC Area is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Status</label>
+                <select class="form-control" formControlName="status">
+                    @for(value of status; track value) {
+                    <option [ngValue]="value.id">{{ value.value }}</option>
+                    }
+                </select>
+                @if(khasraForm.get('status')?.invalid &&
+                (khasraForm.get('status')?.dirty || khasraForm.get('status')?.touched)) {
+                <span class="text-danger mt-2">Status is Required</span>
+                }
+            </div>
+        </div>
+        <div class="footer">
+            <div class="button-container">
+                <button class="btn btn-success" type="submit">Submit</button>
+                <button class="btn btn-danger" type="button" (click)="close()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

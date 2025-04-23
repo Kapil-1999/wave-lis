@@ -1,0 +1,32 @@
+img.logo-part {
+    width: 75%;
+    height: 50%;
+}
+.menu-link {
+    font-size: 14px;
+  }
+
+  .header {
+    background: #6e75e6 !important;
+}
+
+app-footer {
+  background-color: rgb(209 196 196 / 85%);
+  width: 100%;
+  padding: 10px;
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+}
+
+.middle-section {
+  height: calc(100vh - 40px);
+}
+
+.min-h-full {
+  min-height: 100vh;
+}
+
+.logo-part {
+  filter: brightness(0) saturate(100%) invert(54%) sepia(9%) saturate(4547%) hue-rotate(207deg) brightness(99%) contrast(93%);
+}

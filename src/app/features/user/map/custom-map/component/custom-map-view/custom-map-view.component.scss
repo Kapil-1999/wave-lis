@@ -1,0 +1,8 @@
+#map_id {
+    width: 100%;
+    height: calc(100vh - 165px);
+}
+
+:host-context(.vertical-layout) #map_id {
+    height: calc(100vh - 83px); 
+}

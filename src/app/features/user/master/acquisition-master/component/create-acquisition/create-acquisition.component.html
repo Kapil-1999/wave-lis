@@ -1,0 +1,142 @@
+<div class="flex modal-header text-center">
+    <h5>{{label}} Acquisition</h5>
+    <div class="close-modal" (click)="close()">
+        <i class="fa fa-close" style="cursor: pointer;"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <form [formGroup]="acquisitionForm" (ngSubmit)="submit($event, acquisitionForm.value)">
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Village</label>
+                <ngx-select-dropdown 
+                  [config]="config" 
+                  [options]="villageList" 
+                  formControlName="village" (change)="onChangeVillage($event)">
+                </ngx-select-dropdown>
+              
+                @if (acquisitionForm.get('village')?.invalid && (acquisitionForm.get('village')?.dirty || acquisitionForm.get('village')?.touched)) {
+                  <span class="text-danger mt-2">
+                    Village is Required
+                  </span>
+                }
+              </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Khasra No.</label>
+                <ngx-select-dropdown [config]="config" [options]="khasraList"
+                    formControlName="khasra"></ngx-select-dropdown>
+                    @if (acquisitionForm.get('khasra')?.invalid && (acquisitionForm.get('khasra')?.dirty || acquisitionForm.get('khasra')?.touched)) {
+                        <span class="text-danger mt-2">
+                          Khasra No. is Required
+                        </span>
+                      }
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Farmer</label>
+                <ngx-select-dropdown [config]="config" [options]="farmerList"
+                    formControlName="farmer"></ngx-select-dropdown>
+                    @if (acquisitionForm.get('farmer')?.invalid && (acquisitionForm.get('farmer')?.dirty || acquisitionForm.get('farmer')?.touched)) {
+                        <span class="text-danger mt-2">
+                          Farmer is Required
+                        </span>
+                      }
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Party</label>
+                <ngx-select-dropdown [config]="config" [options]="companyList"
+                    formControlName="company"></ngx-select-dropdown>
+                    @if (acquisitionForm.get('company')?.invalid && (acquisitionForm.get('company')?.dirty || acquisitionForm.get('company')?.touched)) {
+                        <span class="text-danger mt-2">
+                          Party is Required
+                        </span>
+                      }
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Acquisition Date</label>
+                <input type="date" class="form-control" formControlName="acquisitionDate" />
+                @if (acquisitionForm.get('acquisitionDate')?.invalid && (acquisitionForm.get('acquisitionDate')?.dirty || acquisitionForm.get('acquisitionDate')?.touched)) {
+                    <span class="text-danger mt-2">
+                        Acquisition Date is Required
+                    </span>
+                  }
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Purchase Karar</label>
+                <input type="number" class="form-control" formControlName="purchaseKarar"
+                    placeholder="Enter Purchase Karar" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Balance Karar</label>
+                <input type="number" class="form-control" formControlName="balanceKarar"
+                    placeholder="Enter Balance Karar" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Balance Registery</label>
+                <input type="number" class="form-control" formControlName="balanceRegistery"
+                    placeholder="Enter Balance Registery" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Purchase Registery</label>
+                <input type="number" class="form-control" formControlName="purchaseRegistery"
+                    placeholder="Enter Purchase Registery" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Transfer Suncity</label>
+                <input type="number" class="form-control" formControlName="transferSuncity"
+                    placeholder="Enter Transfer Suncity" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Left Abadi</label>
+                <input type="number" class="form-control" formControlName="leftAbadi" placeholder="Enter Left Abadi" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Abadi Alloted</label>
+                <input type="number" class="form-control" formControlName="abadiAlloted"
+                    placeholder="Enter Abadi Alloted" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Dispute Area</label>
+                <input type="text" class="form-control" formControlName="disputeArea"
+                    placeholder="Enter Dispute Area" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Lmc Resume</label>
+                <input type="number" class="form-control" formControlName="lmcResume" placeholder="Enter Lmc Resume" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Lmc Leased</label>
+                <input type="number" class="form-control" formControlName="lmcLeased" placeholder="Enter Lmc Leased" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Court Area</label>
+                <input type="number" class="form-control" formControlName="courtArea" placeholder="Enter Court Area" />
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Case Remark</label>
+                <input type="text" class="form-control" formControlName="caseRemark" placeholder="Enter Case Remark" />
+            </div>
+        </div>
+        <div class="footer">
+            <div class="button-container">
+                <button class="btn btn-success" type="submit">Submit</button>
+                <button class="btn btn-danger" type="button" (click)="close()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

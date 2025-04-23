@@ -1,0 +1,123 @@
+<div class="card">
+    <div class="card-header">
+        <div class="header-part">
+            <span>Consolidated Master</span>
+            <div class="counting">
+                <span>
+                    {{ pagesize.count > 0 ? startValue : 0 }} -
+                    {{ pagesize.count > 0 ? lastValue : 0 }}
+                    OF {{ pagesize.count > 0 ? pagesize.count : 0 }} Consolidated
+                </span>
+            </div>
+            @if (pagesize.count && pagesize.count > 0) {
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <pagination-controls id="acquID" [maxSize]="10" [responsive]="true" [nextLabel]="''"
+                        [previousLabel]="''" (pageChange)="onTablePageChange($event)">
+                    </pagination-controls>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="searchForm">
+            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                <div class="w-full md:w-1/4">
+                    <ngx-select-dropdown 
+                        [config]="config" 
+                        [options]="villageList" 
+                        formControlName="village" 
+                        (change)="onChangeVillage($event)">
+                    </ngx-select-dropdown>
+                </div>
+                <div class="w-full md:w-1/4">
+                    <ngx-select-dropdown 
+                        [config]="config1"  
+                        [options]="khasraList" 
+                        formControlName="khasra" 
+                        (change)="onChangeKhasra($event)">
+                    </ngx-select-dropdown>
+                </div>
+                <div class="md:w-1/4"></div>
+                <div class="w-full md:w-1/4 flex flex-col sm:flex-row gap-4 sm:justify-end">
+                    <div class="flex items-center justify-between sm:justify-start space-x-2">
+                        <label for="itemsPerPage" class="text-sm text-gray-700 whitespace-nowrap">Items per page:</label>
+                        <select id="itemsPerPage"
+                            class="block w-20 p-2 bg-white border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                            [(ngModel)]="pagesize.limit" 
+                            [ngModelOptions]="{standalone: true}"  
+                            (change)="onPageSizeChange($event)">
+                            <option *ngFor="let size of [25, 50, 100]" [value]="size">{{ size }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="overflow-auto">
+                    <div id="datatable_wrapper">
+                        @if (isLoading) {
+                            <app-loader />
+                        } @else {
+                            <table id="datatable" class="table table-striped nowrap dataTable no-footer dtr-inline" 
+                                   role="grid" aria-describedby="datatable_info" style="width: 100%" width="100%">
+                                <thead>                                           
+                                    <tr>
+                                        <th rowspan="2">Village Name</th>
+                                        <th rowspan="2">Khasra No</th>
+                                        <th class="mainHeading" colspan="1">Mutation Data</th>
+                                        <th class="mainHeading" colspan="1">Survey Data</th>
+                                        <th rowspan="2">Gis Data</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Area Purchd in S.M.</th>
+                                        <th>Area Purchd in S.M.</th>                                            
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (item of consolidateList | paginate: {
+                                        id: 'acquID',
+                                        itemsPerPage: pagesize.limit, 
+                                        currentPage: pagesize.offset, 
+                                        totalItems: pagesize.count
+                                    }; track $index) {
+                                        <tr>
+                                            <td>{{item?.village_name || 'Na'}}</td>
+                                            <td>{{item?.khasra_gata_no || 0 }}</td>
+                                            <td>
+                                                @if (item?.mutationdata_areapurchd_s_m === item?.serveydata_areapurchd_s_m) {
+                                                    <span>{{item?.mutationdata_areapurchd_s_m}}</span>
+                                                } @else {
+                                                    <span class="badge rounded-pill bg-danger">
+                                                        {{item?.mutationdata_areapurchd_s_m}}
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item?.mutationdata_areapurchd_s_m === item?.serveydata_areapurchd_s_m) {
+                                                    <span>{{item?.serveydata_areapurchd_s_m}}</span>
+                                                } @else {
+                                                    <span class="badge rounded-pill bg-danger">
+                                                        {{item?.serveydata_areapurchd_s_m}}
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td>{{item?.gis_Data || 'NA'}}</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+                @if (!consolidateList?.length) {
+                    <div class="text-center py-4 text-gray-500">
+                        No Consolidated Master Available
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

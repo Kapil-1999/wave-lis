@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-header">
+        <div class="header-part">
+            <span>Map view</span>
+            <button class="btn btn-primary" (click)="printMap()"><i class="fa fa-print"></i> Print</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="map-part">
+            <iframe #mapIframe src="map-data/UpdatePlotStatus/index.html" id="statics_map"></iframe>
+        </div>
+    </div>
+</div>

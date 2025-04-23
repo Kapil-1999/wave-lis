@@ -1,0 +1,59 @@
+<div class="vertical-sidebar text-white shadow-lg w-64 fixed left-0 top-16 bottom-0 flex flex-col transition-all duration-300 ease-in-out"
+     [ngClass]="{'translate-x-0': isOpen, '-translate-x-full': !isOpen}">
+
+  <div class="flex-1 overflow-y-auto">
+    <div class="py-4">
+      @for (menuValue of menuListData; track menuValue) {
+        <div class="px-4 mb-2 relative group">
+          @if (!menuValue.menu_list?.length) {
+            <a [routerLink]="menuValue?.url"
+              class="menu-link flex items-center p-2 rounded-md hover:bg-[rgb(139_143_255)] hover:text-white"
+              [ngClass]="{
+                'bg-[rgb(139_143_255)] text-white': menuValue.isActive,
+                'hover:bg-[rgb(139_143_255)] hover:text-white': !menuValue.isActive
+              }"
+              (click)="toggleSidebar.emit(!isOpen)">
+              <span [innerHTML]="menuValue.icon_class | safeHtml" class="w-6 h-6 mr-2"></span>
+              {{ menuValue.module_name }}
+            </a>
+          }
+
+          @if (menuValue.menu_list?.length) {
+            <a class="flex items-center p-2 rounded-md cursor-pointer hover:bg-[rgb(139_143_255)] hover:text-white"
+              [ngClass]="{
+                'bg-[rgb(139_143_255)] text-white': menuValue.isActive,
+                'hover:bg-[rgb(139_143_255)] hover:text-white': !menuValue.isActive
+              }"
+              (click)="toggleDropdown(menuValue)">
+              <span [innerHTML]="menuValue.icon_class | safeHtml" class="w-6 h-6 mr-2"></span>
+              <span class="flex-1">{{ menuValue.module_name }}</span>
+              <svg [ngClass]="{ 'rotate-180': menuValue.is_open }"
+                class="w-5 h-5 transition-transform"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor">
+                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+              </svg>
+            </a>
+            @if (menuValue.is_open) {
+              <div class="pl-4 mt-2">
+                @for (subNav of menuValue.menu_list; track subNav) {
+                  <a [routerLink]="subNav.url"
+                    class="flex items-center p-2 rounded-md hover:bg-[rgb(139_143_255)] hover:text-white mb-1"
+                    [ngClass]="{
+                      'bg-blue-500 text-white': subNav.isActive,
+                      'text-white-500': !subNav.isActive
+                    }"
+                    (click)="toggleSidebar.emit(!isOpen)">
+                    <span [innerHTML]="subNav.icon_class | safeHtml" class="w-5 h-5 mr-2"></span>
+                    {{ subNav.menu_name }}
+                  </a>
+                }
+              </div>
+            }
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="calculator-container">
+    <div class="calculator">
+        <div class="display">
+            <div class="previous-operand">{{previousOperand}} {{operation}}</div>
+            <div class="current-operand">{{currentOperand}}</div>
+        </div>
+        <button class="span-two" (click)="clear()">AC</button>
+        <button (click)="delete()">DEL</button>
+        <button (click)="chooseOperation('÷')">÷</button>
+        <button (click)="appendNumber('7')">7</button>
+        <button (click)="appendNumber('8')">8</button>
+        <button (click)="appendNumber('9')">9</button>
+        <button (click)="chooseOperation('×')">×</button>
+        <button (click)="appendNumber('4')">4</button>
+        <button (click)="appendNumber('5')">5</button>
+        <button (click)="appendNumber('6')">6</button>
+        <button (click)="chooseOperation('-')">-</button>
+        <button (click)="appendNumber('1')">1</button>
+        <button (click)="appendNumber('2')">2</button>
+        <button (click)="appendNumber('3')">3</button>
+        <button (click)="chooseOperation('+')">+</button>
+        <button (click)="appendNumber('0')">0</button>
+        <button (click)="appendNumber('.')">.</button>
+        <button class="span-two" (click)="compute()">=</button>
+    </div>
+</div>
