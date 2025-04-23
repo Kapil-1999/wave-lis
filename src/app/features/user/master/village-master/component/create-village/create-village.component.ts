@@ -71,7 +71,7 @@ export class CreateVillageComponent {
         shape_area: [0],
         cent_loc: [''],
         vill_url: [''],
-        isVerify: [1, [Validators.required]],
+        isVerify: [0, [Validators.required]],
       });
     }
   }
