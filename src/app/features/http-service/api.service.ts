@@ -25,8 +25,12 @@ export class ApiService {
 
   setBaseSiteIdLocal(url: string) {
     const formatedURl = 'http://103.109.7.173:2091/api/' + url
-    // const formatedURl = 'http://103.190.95.89:9408/api/' + url
     return formatedURl;
+  }
+
+  setBaseUrl(url : string) {
+    let urlData = 'http://103.109.7.173:2080/api/' + url
+    return urlData
   }
 
   get(urlData: any, options: any = {}): Observable<any> {
@@ -70,32 +74,10 @@ export class ApiService {
 
 
 
-
-
-
-
-
-
-
-  // getUserDetails(url: any) {
-  //   const requestUrl = environment.baseAPIURl + url;
-  //   const headers = new HttpHeaders()
-  //     .set("Access-Control-Allow-Origin", "*")
-  //     .set("Access-Control-Allow-Headers", "Content-Type")
-  //     .set(
-  //       "Authorization",
-  //       "Basic " +
-  //         btoa(
-  //           `${environment.onDemand.clientId}:${environment.onDemand.secret}`
-  //         )
-  //     )
-  //     .set("Content-Type", "application/json");
-  //   return this.http.post(requestUrl, {}, { headers: headers });
-  // }
-
-  // getHomePageDate(url: any): Observable<any> {
-  //   return this.http
-  //     .get(this.setBaseSiteId(url))
-  //     .pipe(catchError((error: HttpErrorResponse) => of(error)));
-  // }
+  getWeather(urlData: any, options: any = {}): Observable<any> {
+    let requestOptions = { ...this.responseType, ...options };
+    return this.http
+      .get(this.setBaseUrl(urlData), requestOptions)
+      .pipe(catchError((error: HttpErrorResponse) => of(error)));
+  }
 }

@@ -25,7 +25,7 @@ export const API_CONSTANT = {
    menuSideList : 'Common/GetMenuList?userId={userId}&desigId={desigId}',
    userLogin : 'Auth/Login',
    menuList : 'Menus',
-   addMenu : 'Menu'
-   
+   addMenu : 'Menu',
+   weatherData : 'WeatherData?lat={lat}&lon={lon}&radius={radius}&fromDate={fromDate}&toDate={toDate}'  
    
 }

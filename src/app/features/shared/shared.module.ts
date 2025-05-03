@@ -16,6 +16,8 @@ import { DeleteConfirmationComponent } from './component/delete-confirmation/del
 import { VerticalSidebarComponent } from './layout/vertical-sidebar/vertical-sidebar.component';
 import { LoginComponent } from './component/login/login.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { PageNotFoundComponent } from './component/page-not-found/page-not-found
     ToastrModule.forRoot({}),
     ReactiveFormsModule,
     FormsModule,
-    SelectDropDownModule
+    SelectDropDownModule,
+    BsDatepickerModule.forRoot()
   ],
   exports : [
     SafeHtmlPipe,
@@ -51,7 +54,8 @@ import { PageNotFoundComponent } from './component/page-not-found/page-not-found
     ReactiveFormsModule,
     FormsModule,
     SelectDropDownModule,
-    DeleteConfirmationComponent
+    DeleteConfirmationComponent,
+    BsDatepickerModule
   ]
 })
 export class SharedModule { }

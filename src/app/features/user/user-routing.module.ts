@@ -22,6 +22,9 @@ const routes: Routes = [
   },
   {
     path : 'help', loadChildren : () => import("./wave-help/wave-help.module").then((m) => m.WaveHelpModule)
+  },
+  {
+    path : 'weather', loadChildren : () => import("./weather/weather.module").then((m) => m.WeatherModule)
   }
 ];
 
