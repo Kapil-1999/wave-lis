@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
@@ -56,6 +56,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     SelectDropDownModule,
     DeleteConfirmationComponent,
     BsDatepickerModule
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class SharedModule { }

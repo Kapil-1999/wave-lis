@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule, DatePipe, formatDate } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { WeatherService } from '../../services/weather.service';
 
@@ -34,6 +34,7 @@ export class WeatherInfoComponent {
   toDate: Date = new Date();
   constructor(
     private weatherService: WeatherService,
+    private datePipe : DatePipe
   ) { };
 
 
@@ -91,20 +92,6 @@ export class WeatherInfoComponent {
     this.getWeatherWiseData()
   }
 
-  getWeatherTypeClass(type: string): string {
-    switch (type) {
-      case 'Sunny':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Extremely Cold':
-        return 'bg-blue-100 text-blue-800';
-      case 'Extremely Hot':
-        return 'bg-red-100 text-red-800';
-      case 'Rain':
-        return 'bg-gray-100 text-gray-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  }
 
   getWeatherWiseData() {
     let payload = {
@@ -118,5 +105,19 @@ export class WeatherInfoComponent {
     this.weatherService.getWeatherData(payload).subscribe((res: any) => {
       this.weatherData = res?.body?.data;
     })
+  }
+
+  formatDate(date: Date | string): string {
+    return this.datePipe.transform(date, 'd MMMM yyyy HH:mm:ss') || '';
+  }
+
+  currentExpandedRow: any = null;
+
+  toggleDetails(day: any) {
+    if (this.currentExpandedRow && this.currentExpandedRow !== day) {
+      this.currentExpandedRow.showDetails = false;
+    }
+    day.showDetails = !day.showDetails;
+    this.currentExpandedRow = day.showDetails ? day : null;
   }
 }
