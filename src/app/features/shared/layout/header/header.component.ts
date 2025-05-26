@@ -25,6 +25,7 @@ export class HeaderComponent {
   user$: Observable<string>;
   tokenValue: any;
   user:any
+  isLoading: boolean = false;
 
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;    
@@ -59,7 +60,9 @@ export class HeaderComponent {
   }
 
   getMenuList() {
-    this.commonService.menuSideList().subscribe((res: any) => {            
+    this.isLoading = true;
+    this.commonService.menuSideList().subscribe((res: any) => {        
+      this.isLoading = false;    
       this.menuListData = res?.body?.data || [];
       this.updateActiveMenu(this.router.url);
     });

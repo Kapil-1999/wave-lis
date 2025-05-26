@@ -56,5 +56,5 @@
   <main class="flex-grow pt-16">
     <router-outlet />
   </main>
-  <app-vertical-sidebar [menuListData]="menuListData" [isOpen]="isSidebarOpen" (toggleSidebar)="hideSidebar($event)" />
+  <app-vertical-sidebar [menuListData]="menuListData" [isLoading]="isLoading" [isOpen]="isSidebarOpen" (toggleSidebar)="hideSidebar($event)" />
 </div>

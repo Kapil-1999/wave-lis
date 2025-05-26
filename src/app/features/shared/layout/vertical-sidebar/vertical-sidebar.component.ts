@@ -10,6 +10,7 @@ export class VerticalSidebarComponent {
   @Input() menuListData: any[] = [];
   @Input() showProfile: boolean = false;
   @Input() isOpen: boolean = false;
+  @Input() isLoading:  any;
   @Output() toggleSidebar = new EventEmitter<boolean>();
   constructor(private elementRef: ElementRef) {}
   @HostListener('document:click', ['$event'])

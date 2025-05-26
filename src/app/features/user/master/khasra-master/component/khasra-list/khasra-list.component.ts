@@ -6,6 +6,7 @@ import { CreateKhasraComponent } from '../create-khasra/create-khasra.component'
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { DeleteConfirmationComponent } from '../../../../../shared/component/delete-confirmation/delete-confirmation.component';
 import { NotificationService } from '../../../../../shared/services/notification.service';
+import { VilageService } from '../../../village-master/service/vilage.service';
 
 @Component({
   selector: 'app-khasra-list',
@@ -21,7 +22,7 @@ export class KhasraListComponent {
     count: 0,
   };
   config = {
-    displayKey: "text",
+    displayKey: "village_name",
     search: true,
     height: '300px',
     placeholder: `Select Village`,
@@ -29,9 +30,10 @@ export class KhasraListComponent {
   };
   villageList: any;
   khasraList: any;
-  searchForm! : FormGroup;
+  searchForm!: FormGroup;
   columns: any;
-  bsModalRef! : BsModalRef
+  bsModalRef!: BsModalRef
+  searchKeyword: any;
   get startValue(): number {
     return this.pagesize.offset * this.pagesize.limit - (this.pagesize.limit - 1);
   }
@@ -42,65 +44,87 @@ export class KhasraListComponent {
   }
 
   constructor(
-    private fb : FormBuilder,
-    private khasraService : KhasraService,
-    private bsmodalService : BsModalService,
-    private modalService : BsModalService,
-    private notificationSerivce : NotificationService
-  ){}
+    private fb: FormBuilder,
+    private khasraService: KhasraService,
+    private bsmodalService: BsModalService,
+    private modalService: BsModalService,
+    private notificationSerivce: NotificationService,
+    private villageService: VilageService
+  ) { }
 
   ngOnInit() {
     this.setInitialValue()
-   this.getKhasraList(this.pagesize.offset, this.pagesize.limit);
-    this.setInitialTable()
+    this.getVillageList()
+    this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+    this.setInitialTable();
   }
 
   setInitialValue() {
     this.searchForm = this.fb.group({
       village: [null],
     })
+    this.searchForm.get('village')?.valueChanges.subscribe((value) => {
+      this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+    })
   }
 
   setInitialTable() {
     this.columns = [
-      {key: 'S.No', title: 'S.No'},
-      { key: 'Khasra No', title: 'Khasra No' },
-      {key : 'Khata No', title : 'Khata No'},
+      { key: 'S.No', title: 'S.No' },
       { key: 'Village Name', title: 'Village Name' },
+      { key: 'Village Code', title: 'Village Code' },
+      { key: 'Khasra No', title: 'Khasra No' },
+      {key: 'acquisition_area', title : 'Acquisition Area'},
       { key: 'Notified Area', title: 'Notified Area' },
       { key: 'Lmc Area', title: 'Lmc Area' },
       { key: 'Project Area', title: 'Project Area' },
+      {key : 'total Area', title : 'Total Area'},
       { key: 'Registration Date', title: 'Registration Date' },
-      { key: 'Action', title: 'Action' },
+      { key: 'Status', title: 'Status' },
+      { key: 'Action', title: 'Action' }
     ]
   }
 
-  getKhasraList(pagedata: any, tableSize: any) {
+  getVillageList() {
+    const page = {
+      pageNo: 1,
+      pageSize: 500,
+    };
+    this.villageService.villageData(page).subscribe((res: any) => {
+      this.isLoading = false
+      this.villageList = res?.body?.data || [];
+    })
+  }
+
+  getKhasraList(pagedata: any, tableSize: any , searchKeyword: any) {
     this.isLoading = true;
     let data = {
       pageNumber: pagedata,
       pageSize: tableSize,
+      villageId :this.searchForm.get('village')?.value ? this.searchForm.get('village')?.value?.village_id : 0,
+      searchText: searchKeyword
     }
     this.khasraService.khasraList(data).subscribe((res: any) => {
-    this.isLoading = false;
-      this.khasraList = res?.body?.result || [];
-      this.pagesize.count = res?.body?.totalRow;
+      this.isLoading = false;
+      this.khasraList = res?.body?.data || [];
+      this.pagesize.count = this.khasraList[0].total_count || 0;
     })
   }
 
   onPageSizeChange(event: Event): void {
     const selectedSize = parseInt((event.target as HTMLSelectElement).value, 10);
     this.pagesize.limit = selectedSize;
-    this.getKhasraList(this.pagesize.offset, this.pagesize.limit)
+      this.pagesize.offset = 1;
+    this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
   }
 
   onTablePageChange(event: number) {
     this.pagesize.offset = event;
-    this.getKhasraList(this.pagesize.offset, this.pagesize.limit)
+    this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
 
   }
 
-  onCreateKhasra(value:any){
+  onCreateKhasra(value: any) {
     const initialState: ModalOptions = {
       initialState: {
         editData: value ? value : ''
@@ -115,11 +139,11 @@ export class KhasraListComponent {
     this.bsModalRef?.content?.mapdata?.subscribe((val: any) => {
       this.pagesize.offset = 1;
       this.pagesize.limit = 25;
-      this.getKhasraList(this.pagesize.offset, this.pagesize.limit)
+      this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
     });
   }
 
-  onDeleteKhasra(item:any) {
+  onDeleteKhasra(item: any) {
     let url = this.khasraService.deleteKhasra(item?.khasra_id);
     const initialState: ModalOptions = {
       initialState: {
@@ -140,14 +164,39 @@ export class KhasraListComponent {
     this.bsModalRef?.content.mapdata.subscribe(
       (value: any) => {
         if (value?.status == 200) {
-          this.notificationSerivce.successAlert(value?.body?.actionResponse);
+          this.notificationSerivce.successAlert(value?.body?.message);
           this.pagesize.offset = 1;
           this.pagesize.limit = 25;
-          this.getKhasraList(this.pagesize.offset, this.pagesize.limit)
+          this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
         } else {
           this.notificationSerivce.errorAlert(value?.title);
         }
       }
     );
+  }
+
+  onSearch(event: any) {
+    const searchValue = event.target.value.trim().replace(/\s+/g, ' ');
+    this.searchKeyword = searchValue;
+    this.khasraList = [];
+    this.pagesize.offset = 1;
+    this.pagesize.limit = 25;
+    this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword);
+  }
+
+  clearSearch() {
+    this.searchKeyword = '';
+    this.pagesize.offset = 1;
+    this.pagesize.limit = 25;
+    this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword);
+  }
+
+  onStatusActiveDeactive(item: any) {
+    this.khasraService.activeDeactiveKhasra(item?.khasra_id).subscribe((res: any) => {      
+      this.notificationSerivce.successAlert(res?.body?.message);
+      this.pagesize.offset = 1;
+      this.pagesize.limit = 25;
+      this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+    })
   }
 }

@@ -32,6 +32,7 @@ export class WeatherInfoComponent {
   weatherData: any;
   fromDate: Date = new Date();
   toDate: Date = new Date();
+  isLoading : boolean = false;
   constructor(
     private weatherService: WeatherService,
     private datePipe : DatePipe
@@ -94,6 +95,7 @@ export class WeatherInfoComponent {
 
 
   getWeatherWiseData() {
+    this.isLoading = true;
     let payload = {
       lat: 28.6807,
       lon: 77.5218,
@@ -101,14 +103,14 @@ export class WeatherInfoComponent {
       fromDate: formatDate(this.fromDate, 'yyyy-MM-dd HH:mm:ss', 'en-US'),
       toDate: formatDate(this.toDate, 'yyyy-MM-dd HH:mm:ss', 'en-US')
     }
-    console.log('payload', payload);
     this.weatherService.getWeatherData(payload).subscribe((res: any) => {
+      this.isLoading = false;
       this.weatherData = res?.body?.data;
     })
   }
 
   formatDate(date: Date | string): string {
-    return this.datePipe.transform(date, 'd MMMM yyyy HH:mm:ss') || '';
+    return this.datePipe.transform(date, 'd MMMM yyyy') || '';
   }
 
   currentExpandedRow: any = null;

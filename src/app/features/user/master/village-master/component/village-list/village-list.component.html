@@ -23,32 +23,31 @@
     <div class="card-body">
         <div class="header-container flex flex-col sm:flex-row justify-between gap-4 py-2">
             <div class="left-section">
-                <div class="search-form">
-                    <input placeholder="Search for..." type="text" [(ngModel)]="searchKeyword" (input)="onSearch($event)"
-                        class="form-control search-input" />
-                        @if(searchKeyword) {
-                            <button type="button" class="btn-search" (click)="clearSearch()">
-                                <i class="fa fa-close"  aria-hidden="true"></i>
-                            </button>
-                        } @else {
-                            <button type="button" class="btn-search">
-                                <i class="fa fa-search"  aria-hidden="true"></i>
-                            </button>
-                        }
-                </div>
-            </div>
-            <div class="right-section flex flex-col sm:flex-row gap-4 sm:gap-x-2 w-full sm:w-auto">
                 <div class="flex items-center justify-between sm:justify-start space-x-2">
                     <label for="itemsPerPage" class="text-sm text-gray-700 whitespace-nowrap">Items per page:</label>
                     <select id="itemsPerPage"
                         class="block w-20 p-2 bg-white border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-                        [(ngModel)]="pagesize.limit" 
-                        (change)="onPageSizeChange($event)">
+                        [(ngModel)]="pagesize.limit" (change)="onPageSizeChange($event)">
                         @for (size of [25, 50, 100]; track $index) {
                         <option [value]="size">{{ size }}</option>
                         }
                     </select>
+                    <div class="search-form">
+                        <input placeholder="Search for..." type="text" [(ngModel)]="searchKeyword"
+                            (input)="onSearch($event)" class="form-control search-input" />
+                        @if(searchKeyword) {
+                        <button type="button" class="btn-search" (click)="clearSearch()">
+                            <i class="fa fa-close" aria-hidden="true"></i>
+                        </button>
+                        } @else {
+                        <button type="button" class="btn-search">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                        }
+                    </div>
                 </div>
+            </div>
+            <div class="right-section flex flex-col sm:flex-row gap-4 sm:gap-x-2 w-full sm:w-auto">
                 <button class="btn btn-primary w-full sm:w-auto" (click)="onCreateVillage('')">
                     <i class="fa fa-plus" aria-hidden="true"></i> Create Village
                 </button>
@@ -59,63 +58,59 @@
                 <div class="overflow-auto">
                     <div id="datatable_wrapper">
                         @if (isLoading) {
-                            <app-loader />
+                        <app-loader />
                         } @else {
-                            <table id="datatable" class="table table-striped nowrap dataTable no-footer dtr-inline"
-                                role="grid" #TABLE aria-describedby="datatable_info" style="width: 100%" width="100%">
-                                <thead>
-                                    <tr role="row">
-                                        @for (vehicleHeading of columns; track $index) {
-                                        <th>
-                                            <span>{{ vehicleHeading?.title }}</span>
-                                        </th>
-                                        }
-                                    </tr>
-                                </thead>                                
-                                <tbody>
-                                    @for (item of villageData | paginate: {id: 'villageID',
-                                    itemsPerPage: pagesize.limit, currentPage: pagesize.offset, totalItems:
-                                    pagesize.count}; track $index) {
-                                    <tr>
-                                        <td>
-                                            {{ (pagesize.offset - 1) * pagesize.limit + $index + 1 }}
-                                        </td>
-                                        <td>{{item?.village_code || 'NA'}}</td>
-                                        <td>{{item?.village_name || 'NA'}}</td>
-                                        <td>{{item?.shape_area }}</td>
-                                        <td>{{item?.phase || "NA"}}</td>
-                                        <td>
-                                            <span
+                        <table id="datatable" class="table table-striped nowrap dataTable no-footer dtr-inline"
+                            role="grid" #TABLE aria-describedby="datatable_info" style="width: 100%" width="100%">
+                            <thead>
+                                <tr role="row">
+                                    @for (vehicleHeading of columns; track $index) {
+                                    <th>
+                                        <span>{{ vehicleHeading?.title }}</span>
+                                    </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (item of villageData | paginate: {id: 'villageID',
+                                itemsPerPage: pagesize.limit, currentPage: pagesize.offset, totalItems:
+                                pagesize.count}; track $index) {
+                                <tr>
+                                    <td>
+                                        {{ (pagesize.offset - 1) * pagesize.limit + $index + 1 }}
+                                    </td>
+                                    <td>{{item?.village_code || 'NA'}}</td>
+                                    <td>{{item?.village_name || 'NA'}}</td>
+                                    <td>{{item?.shape_area }}</td>
+                                    <td>{{item?.phase || "NA"}}</td>
+                                    <td>
+                                        <span
                                             class="flex py-2 flex-col w-[70px] items-center justify-center badge badge-sm badge-dot font-semibold bg-{{item?.is_active == 1 ? 'danger' : 'success'}} cursor-pointer"
                                             (click)="onStatusActiveDeactive(item)">
                                             {{item?.is_active == 1 ? 'Deactive' : 'Active'}}
                                         </span>
-                                        </td>
-                                        <td >
-                                            <div class="flex space-x-2">                                               
-                                                <button
-                                                    class="btn btn-success"
-                                                    (click)="onCreateVillage(item)">
-                                                    <i class="fa fa-pencil"></i>
-                                                </button>
-                                                <button
-                                                    class="btn btn-danger"
-                                                    (click)="onDeleteVillage(item)">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <button class="btn btn-success" (click)="onCreateVillage(item)">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-danger" (click)="onDeleteVillage(item)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
                         }
                     </div>
                 </div>
                 @if(!villageData?.length) {
-                    <div class="text-center py-4 text-gray-500">
-                        No Village Available
-                    </div>
+                <div class="text-center py-4 text-gray-500">
+                    No Village Available
+                </div>
                 }
             </div>
         </div>

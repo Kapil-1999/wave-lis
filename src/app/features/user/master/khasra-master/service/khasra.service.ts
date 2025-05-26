@@ -16,6 +16,12 @@ export class KhasraService {
   khasraList(data: any): Observable<any> {
     let url = API_CONSTANT.khasraList.replace('{pageNumber}', data.pageNumber)
       .replace('{pageSize}', data.pageSize)
+      .replace('{villageId}', data.villageId)
+    if (!data.searchText) {
+      url = url.replace('&searchText={searchText}', '');
+    } else {
+      url = url.replace('{searchText}', data.searchText);
+    }
     return this.apiService
       .get(url)
       .pipe(catchError((error: HttpErrorResponse) => of(error)));
@@ -23,8 +29,8 @@ export class KhasraService {
 
   addKhasra(data: any): Observable<any> {
     return this.apiService
-     .post(API_CONSTANT.addKhasra, data)
-     .pipe(catchError((error: HttpErrorResponse) => of(error)));
+      .post(API_CONSTANT.addKhasra, data)
+      .pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
 
   updateKhasra(payload: any): Observable<any> {
@@ -35,5 +41,13 @@ export class KhasraService {
   deleteKhasra(id: any): Observable<any> {
     let url = API_CONSTANT.updateDeleteKhasra.replace('{id}', id);
     return this.apiService.delete(url).pipe(catchError((error: HttpErrorResponse) => of(error)))
+  }
+
+  activeDeactiveKhasra(id: any): Observable<any> {
+    let url = API_CONSTANT.activeDeactiveKhasra
+      .replace('{khasraId}', id)  
+    return this.apiService
+      .get(url)
+      .pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
 }

@@ -54,7 +54,7 @@ export class LoginComponent {
       if(res?.body?.statusCode === 200) {
         this.store.dispatch(setToken({ token: res?.body?.data?.token}));
         this.store.dispatch(setUser({user: res?.body?.data}));
-        this.notificationService.showSuccess('Login Successfull');
+        this.notificationService.showSuccess(res?.body?.message);
         this.closeLogin();
       }  else {
         this.notificationService.showError(res?.body?.actionResponse);

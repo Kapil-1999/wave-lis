@@ -152,7 +152,7 @@ export class VillageListComponent {
 
   onStatusActiveDeactive(item: any) {
     this.villageService.activeDeactiveVillage(item?.village_id).subscribe((res: any) => {
-      let message = `Village ${item?.is_active == 1? 'Deactivated' : 'Activated'} successfully`
+      let message = `Village ${item?.is_active == 1 ? 'Deactivated' : 'Activated'} successfully`
       this.notificationSerivce.successAlert(message);
       this.pagesize.offset = 1;
       this.pagesize.limit = 25;

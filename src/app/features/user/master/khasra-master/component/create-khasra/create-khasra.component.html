@@ -30,16 +30,6 @@
             </div>
 
             <div class="col-md-3 mb-2">
-                <label class="form-label">Khata No.</label>
-                <input type="text" class="form-control" formControlName="khata_no" placeholder="Enter Khata No." />
-                @if(khasraForm.get('khata_no')?.invalid && (khasraForm.get('khata_no')?.dirty ||
-                khasraForm.get('khata_no')?.touched)) {
-                <span class="text-danger mt-2">
-                    Khata No. is Required
-                </span>
-                }
-            </div>
-            <div class="col-md-3 mb-2">
                 <label class="form-label">Registration Date</label>
                 <input type="date" class="form-control" formControlName="registration_date" />
                 @if (khasraForm.get('registration_date')?.invalid && (khasraForm.get('registration_date')?.dirty ||
@@ -52,10 +42,25 @@
             <div class="col-md-3 mb-2">
                 <label class="form-label">Total Area</label>
                 <input type="number" class="form-control" formControlName="total_area" placeholder="Enter Total Area" />
-                @if(khasraForm.get('total_area')?.invalid && (khasraForm.get('total_area')?.dirty ||
-                khasraForm.get('total_area')?.touched)) {
+                @if(khasraForm.get('total_area')?.invalid && (khasraForm.get('total_area')?.dirty || khasraForm.get('total_area')?.touched)) {
+        <span class="text-danger mt-2">
+            @if(khasraForm.get('total_area')?.errors?.['required']) {
+                Total Area is required
+            }
+            @if(khasraForm.get('total_area')?.errors?.['min']) {
+                Total Area must be greater than 0
+            }
+        </span>
+    }
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Acquisition Area</label>
+                <input type="number" class="form-control" formControlName="acquisition_area"
+                    placeholder="Enter Acquisition Area" />
+                @if(khasraForm.get('acquisition_area')?.invalid && (khasraForm.get('acquisition_area')?.dirty ||
+                khasraForm.get('acquisition_area')?.touched)) {
                 <span class="text-danger mt-2">
-                    Total Area is Required
+                    Acquisition Area is Required
                 </span>
                 }
             </div>
@@ -63,23 +68,23 @@
                 <label class="form-label">Project Area</label>
                 <input type="number" class="form-control" formControlName="project_area"
                     placeholder="Enter Project Area" />
-                    @if(khasraForm.get('project_area')?.invalid && (khasraForm.get('project_area')?.dirty ||
-                    khasraForm.get('project_area')?.touched)) {
-                    <span class="text-danger mt-2">
-                        Project Area is Required
-                    </span>
-                    }
+                @if(khasraForm.get('project_area')?.invalid && (khasraForm.get('project_area')?.dirty ||
+                khasraForm.get('project_area')?.touched)) {
+                <span class="text-danger mt-2">
+                    Project Area is Required
+                </span>
+                }
             </div>
             <div class="col-md-3 mb-2">
                 <label class="form-label">Notified Area</label>
                 <input type="number" class="form-control" formControlName="notified_area"
                     placeholder="Enter Notified Area" />
-                    @if(khasraForm.get('notified_area')?.invalid && (khasraForm.get('notified_area')?.dirty ||
-                    khasraForm.get('notified_area')?.touched)) {
-                    <span class="text-danger mt-2">
-                        Notified Area is Required
-                    </span>
-                    }
+                @if(khasraForm.get('notified_area')?.invalid && (khasraForm.get('notified_area')?.dirty ||
+                khasraForm.get('notified_area')?.touched)) {
+                <span class="text-danger mt-2">
+                    Notified Area is Required
+                </span>
+                }
             </div>
             <div class="col-md-3 mb-2">
                 <label class="form-label">LMC Area</label>
