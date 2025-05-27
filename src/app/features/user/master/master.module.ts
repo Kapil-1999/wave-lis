@@ -27,6 +27,11 @@ import { UploadDocumentComponent } from './document-management/component/upload-
 import { ManageMenuComponent } from './menu-master/pages/manage-menu/manage-menu.component';
 import { MenuListComponent } from './menu-master/component/menu-list/menu-list.component';
 import { CreateMenuComponent } from './menu-master/component/create-menu/create-menu.component';
+import { UserListComponent } from './user-master/component/user-list/user-list.component';
+import { CreateUserComponent } from './user-master/component/create-user/create-user.component';
+import { ManageDisputedComponent } from './disputed-details/pages/manage-disputed/manage-disputed.component';
+import { DisputedListComponent } from './disputed-details/component/disputed-list/disputed-list.component';
+import { CrateDisputeComponent } from './disputed-details/component/crate-dispute/crate-dispute.component';
 
 
 @NgModule({
@@ -55,6 +60,11 @@ import { CreateMenuComponent } from './menu-master/component/create-menu/create-
     ManageMenuComponent,
     MenuListComponent,
     CreateMenuComponent,
+    UserListComponent,
+    CreateUserComponent,
+    ManageDisputedComponent,
+    DisputedListComponent,
+    CrateDisputeComponent,
   ],
   imports: [
     CommonModule,

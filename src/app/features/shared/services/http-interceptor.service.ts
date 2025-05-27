@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/app.reducer';
 import { selectToken } from '../../../core/app.selectors';
+import { clearAuth } from '../../../core/app.action';
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
@@ -22,24 +23,23 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.store.select(selectToken).pipe(
-      take(1), // Take the first emitted token value
+      take(1), 
       switchMap(token => {
         if (!token) {
-          return next.handle(req); // Proceed without token if none exists
+          return next.handle(req); 
         }
 
         const authReq = req.clone({
           setHeaders: {
-            Authorization: `Bearer ${token}`
+            Authorization: token ? `Bearer ${token}` : ""
           }
         });
 
         return next.handle(authReq).pipe(
           catchError((error: HttpErrorResponse) => {
-            // Handle specific error cases
             if (error.status === 401) {
-              // Unauthorized - redirect to login
-              this.router.navigate(['/login']);
+              this.router.navigateByUrl('/user/map/map-view');
+              this.store.dispatch(clearAuth());
             }
             
             return throwError(() => ({

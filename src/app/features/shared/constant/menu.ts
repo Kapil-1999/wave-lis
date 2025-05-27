@@ -201,3 +201,5 @@ export const ADMIN_MENU = [
     isOpen: false,
   },
 ];
+
+export const IMG_URL = 'http://103.109.7.173:2091/';

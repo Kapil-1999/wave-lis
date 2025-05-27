@@ -11,6 +11,7 @@ import { ManageKhasraComponent } from './khasra-master/pages/manage-khasra/manag
 import { ManageDoucmentComponent } from './document-management/pages/manage-doucment/manage-doucment.component';
 import { ManageSateliteComponent } from './satelite-master/pages/manage-satelite/manage-satelite.component';
 import { ManageMenuComponent } from './menu-master/pages/manage-menu/manage-menu.component';
+import { ManageDisputedComponent } from './disputed-details/pages/manage-disputed/manage-disputed.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,9 @@ const routes: Routes = [
   },
   {
     path:'menu-master', component : ManageMenuComponent
+  },
+  {
+    path :'dispute-master', component : ManageDisputedComponent
   }
 ];
 

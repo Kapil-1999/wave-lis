@@ -1,0 +1,78 @@
+<div class="flex modal-header text-center">
+    <h5>{{label}} User</h5>
+    <div class="close-modal" (click)="close()">
+        <i class="fa fa-close" style="cursor: pointer;"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <form [formGroup]="disputeForm" (ngSubmit)="submit($event, disputeForm.value)">
+        <div class="row g-3">
+            <div class="col-md-4 mb-2">
+                <label class="form-label">Village</label>
+                <ngx-select-dropdown [config]="config" [options]="villageList" formControlName="village" (change)="onChangeVillage($event)">
+                </ngx-select-dropdown>
+                @if (disputeForm.get('village')?.invalid && (disputeForm.get('village')?.dirty ||
+                disputeForm.get('village')?.touched)) {
+                <span class="text-danger mt-2">
+                    Village is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-4 mb-2">
+                <label class="form-label">Khasra</label>
+                <ngx-select-dropdown [config]="config" [options]="khasraList" formControlName="khasra">
+                </ngx-select-dropdown>
+                @if (disputeForm.get('khasra')?.invalid && (disputeForm.get('khasra')?.dirty ||
+                disputeForm.get('khasra')?.touched)) {
+                <span class="text-danger mt-2">
+                    Khasra is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-4 mb-2">
+                <label class="form-label">Disputed Type</label>
+                <select class="form-control" formControlName="disputeType">
+                    <option value=null>Select Disputed Type</option>
+                    <option *ngFor="let value of disputeType" [ngValue]="value.id">{{ value.text }}</option>
+                </select>
+                <span *ngIf="disputeForm?.get('disputeType')?.invalid &&
+                            (disputeForm?.get('disputeType')?.dirty || disputeForm?.get('disputeType')?.touched)"
+                    class="text-danger mt-2">
+                    Disputed Type is Required
+                </span>
+            </div>
+            @if(disputeForm.get('disputeType')?.value == 'court_case') {                        
+                <div class="col-md-4 mb-2">
+                    <label class="form-label">Court Case No.</label>
+                    <input type="text" class="form-control" formControlName="courtCaseNo" placeholder="Enter Court Case No." />
+                    @if(disputeForm.get('courtCaseNo')?.invalid && (disputeForm.get('courtCaseNo')?.dirty ||
+                    disputeForm.get('courtCaseNo')?.touched)) {
+                    <span class="text-danger mt-2">
+                       Court Case No. is Required
+                    </span>
+                    }
+                </div>
+            }
+            <div class="col-md-4 mb-2">
+                <label class="form-label">Disputed Area.</label>
+                <input type="number" class="form-control" formControlName="disputeArea" placeholder="Enter Disputed Area." />
+                @if(disputeForm.get('disputeArea')?.invalid && (disputeForm.get('disputeArea')?.dirty ||
+                disputeForm.get('disputeArea')?.touched)) {
+                <span class="text-danger mt-2">
+                   Disputed Area. is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-4 mb-2">
+                <label class="form-label">Disputed Remarks</label>
+                <input type="text" class="form-control" formControlName="remarks" placeholder="Enter Disputed Remarks" />
+            </div>
+        </div>
+        <div class="modal-footer mt-3">
+            <button type="submit" class="btn btn-success" >
+            Submit
+            </button>
+          <button type="button" class="btn btn-danger" (click)="close()">Cancel</button>
+        </div>
+    </form>
+</div>

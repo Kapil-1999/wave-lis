@@ -9,8 +9,6 @@ export const API_CONSTANT = {
    commonFarmer: 'Common/GetFarmerListBasedOnVill?deptId={deptId}&userId={userId}&villageId={villageId}',
    addAcquisition: 'Acquisition/CreateAcquisition',
    deleteAcquisition: 'Acquisition/DeleteAcquisitionData?id={id}&villageId={villageId}&khasraNo={khasraNo}',
-   farmer: 'Farmer?pageNo={pageNo}&pageSize={pageSize}',
-   addFarmer: 'Farmer',
    plotList: 'Plot/GetPlotListDetails_khasra?villageId={villageId}&khasraNo={khasraNo}&pageNumber={pageNumber}&pageSize={pageSize}',
    farmerReport: 'Report/GetVillagePurchageReport?userId={userId}&reportType={reportType}&villageId={villageId}&farmerId={farmerId}&pageNumber={pageNumber}&pageSize={pageSize}',
    consolidatedList: 'Chart/GetVillageSummaryDataForChart?villageId={villageId}&khasraNo={khasraNo}&pageNumber={pageNumber}&pageSize={pageSize}',
@@ -33,6 +31,28 @@ export const API_CONSTANT = {
    khasraList: 'Khasras?pageNo={pageNumber}&pageSize={pageSize}&villageId={villageId}&searchText={searchText}',
    addKhasra: 'Khasras',
    updateDeleteKhasra: 'Khasras/{id}',
-   activeDeactiveKhasra : 'Khasras/DeActivateKhasra?khasraId={khasraId}'
+   activeDeactiveKhasra : 'Khasras/DeActivateKhasra?khasraId={khasraId}',
 
+   //farmer api
+   farmerList: 'Farmers?pageNo={pageNo}&pageSize={pageSize}&villageId={villageId}&searchText={searchText}',
+   addFarmer: 'Farmers',
+   updateDeleteFarmer: 'Farmers/{id}',
+   activeDeactiveFarmer: 'Farmers/DeActivateFarmer?farmerId={farmerId}',
+
+   //user api
+   userList: 'Users?pageNo={pageNo}&pageSize={pageSize}&searchText={searchText}',
+   addUser: 'Users',
+   updateDeleteUser: 'Users/{id}',
+   activeDeactiveUser: 'Users/DeActivateUser?userId={userId}',
+
+   //common api
+   roleList : 'Roles',
+   commonVillageList : 'Villages/GetVillageList',
+   commonKhasraList : 'Khasras/GetKhasraList?villageId={villageId}',
+   commonFarmerList : 'Farmers/GetFarmerList?villageId={villageId}&khasraId={khasraId}',
+
+   //dispute details api
+   disputeDetails : 'Khasras/GetDisputedDetailsList?pageNo={pageNo}&pageSize={pageSize}&searchText={searchText}&villageId={villageId}',
+   addDisputeDetails : 'Khasras/CreateDisputedDetails',
+   updateDisputeDetails : 'Khasras/UpdateDisputedDetails/{id}'
 }

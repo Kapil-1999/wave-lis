@@ -46,32 +46,24 @@ getCompany(): Observable<any> {
   );
 }
 
-villageList(): Observable<any> {
-  const deptId = this.getDept();
-  const userId = this.getUserId();
-  
-  const url = API_CONSTANT.villageList.replace('{deptId}', deptId)
-    .replace('{userId}', userId);
+villageList(): Observable<any> {  
+  const url = API_CONSTANT.commonVillageList
   return this.apiService
     .get(url)
     .pipe(catchError((error: HttpErrorResponse) => of(error)));
 }
 
   khasraBasedOnVillage(data: any): Observable<any> {
-    const deptId = this.getDept();
-    const userId = this.getUserId();
-    let url = API_CONSTANT.khasraBasedOnVillage.replace('{deptId}', deptId)
-      .replace('{userId}', userId).replace("{villageId}", data.villageId)
+    let url = API_CONSTANT.commonKhasraList.replace("{villageId}", data.villageId)
     return this.apiService
       .get(url)
       .pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
 
   commonFarmer(data: any): Observable<any> {
-    const deptId = this.getDept();
-    const userId = this.getUserId();
-    let url = API_CONSTANT.commonFarmer.replace('{deptId}', deptId)
-      .replace('{userId}', userId).replace("{villageId}", data.villageId)
+    let url = API_CONSTANT.commonFarmerList
+    .replace("{villageId}", data.villageId)
+    .replace("{khasraId}", data.khasraId)
     return this.apiService
       .get(url)
       .pipe(catchError((error: HttpErrorResponse) => of(error)));
@@ -90,5 +82,12 @@ villageList(): Observable<any> {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+  }
+
+  roleList() {
+    const url = API_CONSTANT.roleList;
+    return this.apiService
+     .get(url)
+     .pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
 }
