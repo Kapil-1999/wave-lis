@@ -22,7 +22,7 @@ export class KhasraListComponent {
     count: 0,
   };
   config = {
-    displayKey: "village_name",
+    displayKey: "text",
     search: true,
     height: '300px',
     placeholder: `Select Village`,
@@ -49,7 +49,7 @@ export class KhasraListComponent {
     private bsmodalService: BsModalService,
     private modalService: BsModalService,
     private notificationSerivce: NotificationService,
-    private villageService: VilageService
+    private villageService: CommonService
   ) { }
 
   ngOnInit() {
@@ -63,7 +63,7 @@ export class KhasraListComponent {
     this.searchForm = this.fb.group({
       village: [null],
     })
-    this.searchForm.get('village')?.valueChanges.subscribe((value) => {
+    this.searchForm.get('village')?.valueChanges.subscribe((value) => {      
       this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
     })
   }
@@ -86,12 +86,7 @@ export class KhasraListComponent {
   }
 
   getVillageList() {
-    const page = {
-      pageNo: 1,
-      pageSize: 500,
-    };
-    this.villageService.villageData(page).subscribe((res: any) => {
-      this.isLoading = false
+    this.villageService.villageList().subscribe((res: any) => {
       this.villageList = res?.body?.data || [];
     })
   }
@@ -101,13 +96,13 @@ export class KhasraListComponent {
     let data = {
       pageNumber: pagedata,
       pageSize: tableSize,
-      villageId :this.searchForm.get('village')?.value ? this.searchForm.get('village')?.value?.village_id : 0,
+      villageId : Array.isArray(this.searchForm.get('village')?.value) ? 0 : (this.searchForm.get('village')?.value?.value || 0),
       searchText: searchKeyword
     }
     this.khasraService.khasraList(data).subscribe((res: any) => {
       this.isLoading = false;
       this.khasraList = res?.body?.data || [];
-      this.pagesize.count = this.khasraList[0].total_count || 0;
+      this.pagesize.count = this.khasraList[0]?.total_count || 0;
     })
   }
 
@@ -193,10 +188,14 @@ export class KhasraListComponent {
 
   onStatusActiveDeactive(item: any) {
     this.khasraService.activeDeactiveKhasra(item?.khasra_id).subscribe((res: any) => {      
-      this.notificationSerivce.successAlert(res?.body?.message);
-      this.pagesize.offset = 1;
-      this.pagesize.limit = 25;
-      this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+      if (res?.status == 200) {
+        this.notificationSerivce.successAlert(res?.body?.message);
+        this.pagesize.offset = 1;
+        this.pagesize.limit = 25;
+        this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+      } else {
+        this.notificationSerivce.errorAlert(res?.body?.message);
+      };
     })
   }
 }

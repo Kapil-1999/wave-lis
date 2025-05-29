@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FarmerService } from '../../services/farmer.service';
 import { formatDate } from '@angular/common';
 import { NotificationService } from '../../../../../shared/services/notification.service';
+import { VilageService } from '../../../village-master/service/vilage.service';
 
 @Component({
   selector: 'app-create-farmer',
@@ -30,14 +31,15 @@ export class CreateFarmerComponent {
   status = [
     { value: 'Active', id: 1 },
     { value: 'Inactive', id: 0 },
-  ]
+  ];
+  editData: any
 
   constructor(
     private modalService: BsModalService,
     private commonService: CommonService,
     private fb: FormBuilder,
-    private farmerService : FarmerService,
-    private NotificationService : NotificationService,
+    private farmerService: FarmerService,
+    private NotificationService: NotificationService,
     private bsmodalService: BsModalService,
   ) { }
 
@@ -49,19 +51,34 @@ export class CreateFarmerComponent {
   setInitialState() {
     this.farmerForm = this.fb.group({
       village: [null, [Validators.required]],
-      name: ['', [Validators.required]],
+      name: [null, [Validators.required]],
       relation: ['S/O', [Validators.required]],
-      relationName: ['', [Validators.required]],
-      registration_date: ['', [Validators.required]],
+      relationName: [null, [Validators.required]],
       mobile: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-      address: [''],
-      status: [1 , [Validators.required]]
-    })
+      address: [null],
+    });
+
+    if (this.editData) {
+      this.label = 'Update';
+      this.farmerForm.patchValue({
+        name: this.editData?.farmer_name,
+        relation: this.editData?.relation,
+        relationName: this.editData?.father_name,
+        mobile: this.editData?.phone_no,
+        address: this.editData?.address,
+      })
+    }
   }
 
   getVillageList() {
     this.commonService.villageList().subscribe((res: any) => {
-      this.villageList = res?.body?.result || [];
+      this.villageList = res?.body?.data || [];
+      if (this.editData) {
+        let selectVillage = this.villageList.find((val: any) => val?.value == this.editData?.village_id);
+        this.farmerForm.patchValue({
+          village: selectVillage
+        })
+      }
     })
   }
 
@@ -78,28 +95,27 @@ export class CreateFarmerComponent {
     let payload = {
       "farmer_id": 0,
       "farmer_name": formvalue?.name,
-      "village_id": Number(formvalue?.village.value),
-      "village_name": formvalue?.village.text,
-      "registration_date": formatDate(formvalue.registration_date, 'yyyy-MM-dd HH:mm:ss', 'en-US'),
-      "user_id": 0,
-      "farmer_id_expl": 0,
       "phone_no": formvalue?.mobile.toString(),
       "address": formvalue?.address,
       "father_name": formvalue?.relationName,
       "relation": formvalue?.relation,
-      "is_active": formvalue?.status,
-      "created_by":  this.commonService.getUserId()
+      "village_id": Number(formvalue?.village.value),
+      "is_active": this.editData?.is_active !== undefined ? this.editData.is_active : 1,
+      "created_by": this.commonService.getUserId(),
     }
     let service = this.farmerService.addFarmer(payload);
+    if (this.editData) {
+      payload.farmer_id = this.editData.farmer_id;
+      service = this.farmerService.updateFarmer(payload);
+    }
 
-    service.subscribe((res:any) => {
-      console.log(res);
+    service.subscribe((res: any) => {
       if (res?.body?.statusCode === 200) {
-        this.NotificationService.showSuccess(res?.body?.actionResponse)
+        this.NotificationService.showSuccess(res?.body?.message)
         this.bsmodalService.hide();
         this.mapdata.emit();
       } else {
-        this.NotificationService.showError(res?.body?.actionResponse)
+        this.NotificationService.showError(res?.body?.message)
       }
     })
   }

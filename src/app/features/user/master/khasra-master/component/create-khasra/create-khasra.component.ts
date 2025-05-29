@@ -17,7 +17,7 @@ export class CreateKhasraComponent {
   label: string = 'Create';
   khasraForm!: FormGroup;
   config = {
-    displayKey: "village_name",
+    displayKey: "text",
     search: true,
     height: '300px',
   }
@@ -34,7 +34,6 @@ export class CreateKhasraComponent {
     private commonService: CommonService,
     private khasraService: KhasraService,
     private NotificationService: NotificationService,
-    private villageService: VilageService
   ) { }
 
   ngOnInit() {
@@ -46,42 +45,33 @@ export class CreateKhasraComponent {
   setInitialValue() {
     this.khasraForm = this.fb.group({
       village: [null, [Validators.required]],
-      khasra_no: ['', [Validators.required]],
-      registration_date: ['', [Validators.required]],
+      khasra_no: [null, [Validators.required]],
       total_area: [0, [Validators.required, Validators.min(1)]],
       acquisition_area: [0],
       project_area: [0],
       notified_area: [0],
       lmc_area: [0],
-      status: [1, [Validators.required]]
     })
 
     if (this.editData) {
       this.label = 'Update';
-      const registrationDate = this.commonService.getLocalDateString(this.editData.created_on);
       this.khasraForm.patchValue({
         khasra_no: this.editData.khasra_no,
-        registration_date: registrationDate,
         total_area: this.editData.total_area,
         acquisition_area: this.editData.acquisition_area,
         project_area: this.editData.project_area,
         notified_area: this.editData.notified_area,
         lmc_area: this.editData.lmc_area,
-        status: this.editData.is_active
       })
     }
   }
 
 
   getVillageList() {
-    const page = {
-      pageNo: 1,
-      pageSize: 500,
-    };
-    this.villageService.villageData(page).subscribe((res: any) => {
+    this.commonService.villageList().subscribe((res: any) => {      
       this.villageList = res?.body?.data || [];
       if(this.editData) {
-        let selectVillage = this.villageList.find((val:any) => val?.village_id == this.editData?.village_id);
+        let selectVillage = this.villageList.find((val:any) => val?.value == this.editData?.village_id);
         this.khasraForm.patchValue({
           village : selectVillage
         })
@@ -103,15 +93,10 @@ export class CreateKhasraComponent {
       "acquisition_area" : formvalue?.acquisition_area,
       "project_area": formvalue.project_area,
       "lmc_area": formvalue.lmc_area,
-      "village_id": Number(formvalue?.village.village_id),
-      "is_active": formvalue.status,
+      "village_id": Number(formvalue?.village.value),
+      "is_active": this.editData?.is_active !== undefined ? this.editData.is_active : 1,
       "created_by": this.commonService.getUserId(),
-      "village_name": formvalue?.village.village_name,
-      "village_code": formvalue?.village.village_code,
-      "notified_area": formvalue.notified_area,
-      "created_on": new Date(formvalue.registration_date).toISOString(),
-      "total_count": 0,
-
+      "notified_area": formvalue.notified_area
     }
 
     let service = this.khasraService.addKhasra(payload);
@@ -121,11 +106,11 @@ export class CreateKhasraComponent {
     }
     service.subscribe((res: any) => {
       if (res?.body?.statusCode === 200) {
-        this.NotificationService.showSuccess(res?.body?.actionResponse)
+        this.NotificationService.showSuccess(res?.body?.message)
         this.bsmodalService.hide();
         this.mapdata.emit();
       } else {
-        this.NotificationService.showError(res?.body?.actionResponse)
+        this.NotificationService.showError(res?.body?.message)
       }
     })
   }

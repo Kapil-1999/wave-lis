@@ -30,16 +30,6 @@
             </div>
 
             <div class="col-md-3 mb-2">
-                <label class="form-label">Registration Date</label>
-                <input type="date" class="form-control" formControlName="registration_date" />
-                @if (khasraForm.get('registration_date')?.invalid && (khasraForm.get('registration_date')?.dirty ||
-                khasraForm.get('registration_date')?.touched)) {
-                <span class="text-danger mt-2">
-                    Registration Date is Required
-                </span>
-                }
-            </div>
-            <div class="col-md-3 mb-2">
                 <label class="form-label">Total Area</label>
                 <input type="number" class="form-control" formControlName="total_area" placeholder="Enter Total Area" />
                 @if(khasraForm.get('total_area')?.invalid && (khasraForm.get('total_area')?.dirty || khasraForm.get('total_area')?.touched)) {
@@ -94,18 +84,6 @@
                 <span class="text-danger mt-2">
                     LMC Area is Required
                 </span>
-                }
-            </div>
-            <div class="col-md-3 mb-2">
-                <label class="form-label">Status</label>
-                <select class="form-control" formControlName="status">
-                    @for(value of status; track value) {
-                    <option [ngValue]="value.id">{{ value.value }}</option>
-                    }
-                </select>
-                @if(khasraForm.get('status')?.invalid &&
-                (khasraForm.get('status')?.dirty || khasraForm.get('status')?.touched)) {
-                <span class="text-danger mt-2">Status is Required</span>
                 }
             </div>
         </div>

@@ -52,12 +52,6 @@
                 </span>
                 </div>
                 <div class="md:w-1/4">
-                    <ngx-select-dropdown 
-                        [config]="config2"  
-                        [options]="farmerList" 
-                        formControlName="farmer" 
-                        (change)="onChangeFarmer($event)">
-                    </ngx-select-dropdown>
                     <span
                     *ngIf="searchForm?.get('farmer')?.invalid &&
                             (searchForm?.get('farmer')?.dirty || searchForm?.get('farmer')?.touched)"

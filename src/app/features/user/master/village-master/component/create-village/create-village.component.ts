@@ -12,7 +12,7 @@ import { NotificationService } from '../../../../../shared/services/notification
   styleUrl: './create-village.component.scss'
 })
 export class CreateVillageComponent {
-  @Output() mapdata = new EventEmitter()
+  @Output() mapdata = new EventEmitter();
   label: string = "Create";
   villageForm!: FormGroup;
   config = {
@@ -62,15 +62,14 @@ export class CreateVillageComponent {
       this.villageForm.patchValue({
         phase: this.phaseList.find((data: any) => data.value == this.editData.phase)
       })
-
     } else {
       this.villageForm = this.fb.group({
-        name: ['', [Validators.required]],
+        name: [null, [Validators.required]],
         phase: [null, [Validators.required]],
         shape_len: [0],
         shape_area: [0],
-        cent_loc: [''],
-        vill_url: [''],
+        cent_loc: [null],
+        vill_url: [null],
         isVerify: [0, [Validators.required]],
       });
     }
@@ -95,19 +94,17 @@ export class CreateVillageComponent {
 
     let payload = {
       "village_id": 0,
-      "village_code": "",
+      "village_code": null,
       "village_name": formvalue.name,
       "shape_lenght": formvalue.shape_len,
       "shape_area": formvalue.shape_area,
       "company_id": 0,
-      "company_name": "",
       "phase": phaseValue.value,
       "center_loc": formvalue.cent_loc,
       "village_url": formvalue.vill_url,
       "is_verified": formvalue.isVerify,
-      "is_active": 1,
+      "is_active": this.editData?.is_active !== undefined ? this.editData.is_active : 1,
       "created_by": this.commonService.getUserId(),
-      "total_count": 0
     }
     let service = this.villageService.addVillage(payload);
     if(this.editData) {

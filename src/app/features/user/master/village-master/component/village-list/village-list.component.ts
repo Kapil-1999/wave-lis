@@ -152,11 +152,14 @@ export class VillageListComponent {
 
   onStatusActiveDeactive(item: any) {
     this.villageService.activeDeactiveVillage(item?.village_id).subscribe((res: any) => {
-      let message = `Village ${item?.is_active == 1 ? 'Deactivated' : 'Activated'} successfully`
-      this.notificationSerivce.successAlert(message);
-      this.pagesize.offset = 1;
-      this.pagesize.limit = 25;
-      this.fetchVillageList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+      if (res?.status == 200) {
+        this.notificationSerivce.successAlert(res?.body?.message);
+        this.pagesize.offset = 1;
+        this.pagesize.limit = 25;
+        this.fetchVillageList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+      } else {
+        this.notificationSerivce.errorAlert(res?.body?.message);
+      };
     })
   }
 }

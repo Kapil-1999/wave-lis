@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../../../../http-service/api.service';
 import { catchError, Observable, of } from 'rxjs';
 import { API_CONSTANT } from '../../../../shared/constant/api.constant';
-import { LocalStorageService } from '../../../../shared/services/localstorage.service';
+import { ApiService } from '../../../../http-service/api.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FarmerService {
+export class DisputedService {
 
   constructor(
-    private apiService: ApiService,
-    private localStorage: LocalStorageService,
+    private apiService: ApiService
   ) { }
 
-  farmerList(data: any): Observable<any> {
-    let url = API_CONSTANT.farmerList.replace('{pageNo}', data.pageNo)
+  disputeDetails(data: any): Observable<any> {
+    let url = API_CONSTANT.disputeDetails.replace('{pageNo}', data.pageNo)
       .replace('{pageSize}', data.pageSize)
       .replace('{villageId}', data.villageId)
     if (!data.searchText) {
@@ -27,26 +25,27 @@ export class FarmerService {
     return this.apiService.get(url).pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
 
-  addFarmer(data: any): Observable<any> {
-    return this.apiService.post(API_CONSTANT.addFarmer, data).pipe(catchError((error: HttpErrorResponse) => of(error)));
+  createDispute(data: any): Observable<any> {
+    return this.apiService
+      .post(API_CONSTANT.addDisputeDetails, data)
+      .pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
 
-  updateFarmer(payload: any): Observable<any> {
-    let url = API_CONSTANT.updateDeleteFarmer.replace('{id}', payload.farmer_id);
+  updateDisputeDetails(payload: any): Observable<any> {
+    let url = API_CONSTANT.updateDisputeDetails.replace('{id}', payload.disputed_id);
     return this.apiService.put(url, payload).pipe(catchError((error: HttpErrorResponse) => of(error)))
   }
 
-  deleteFarmer(id: any): Observable<any> {
-    let url = API_CONSTANT.updateDeleteFarmer.replace('{id}', id);
+  deleteDisputeDetails(id: any): Observable<any> {
+    let url = API_CONSTANT.deleteDisputeDetails.replace('{id}', id);
     return this.apiService.delete(url).pipe(catchError((error: HttpErrorResponse) => of(error)))
   }
 
-  activeDeactiveFarmer(id: any): Observable<any> {
-    let url = API_CONSTANT.activeDeactiveFarmer
-      .replace('{farmerId}', id)
+  activeDeactiveDisputeDetails(id: any): Observable<any> {
+    let url = API_CONSTANT.activeDeactiveDisputeDetails
+      .replace('{khasraId}', id)  
     return this.apiService
       .get(url)
       .pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
-
 }

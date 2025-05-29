@@ -1,18 +1,18 @@
 <div class="card">
     <div class="card-header">
         <div class="header-part">
-            <span>Khasra Master</span>
+            <span>User List</span>
             <div class="counting">
                 <span>
                     {{ pagesize.count > 0 ? startValue : 0 }} -
                     {{ pagesize.count > 0 ? lastValue : 0 }}
-                    OF {{ pagesize.count > 0 ? pagesize.count : 0 }} Khasra
+                    OF {{ pagesize.count > 0 ? pagesize.count : 0 }} Users
                 </span>
             </div>
             @if (pagesize.count && pagesize.count > 0) {
             <div class="row">
                 <div class="d-flex justify-content-center">
-                    <pagination-controls id="khaID" [maxSize]="10" [responsive]="true" [nextLabel]="''"
+                    <pagination-controls id="userID" [maxSize]="10" [responsive]="true" [nextLabel]="''"
                         [previousLabel]="''" (pageChange)="onTablePageChange($event)">
                     </pagination-controls>
                 </div>
@@ -21,20 +21,19 @@
         </div>
     </div>
     <div class="card-body">
-        <form [formGroup]="searchForm">
-            <div class="flex flex-col md:flex-row gap-4 mb-4">
-                <div class="w-full md:w-1/4">
-                    <div class="flex items-center justify-between sm:justify-start space-x-2">
+        <div class="header-container flex flex-col sm:flex-row justify-between gap-4 py-2">
+            <div class="left-section">
+                <div class="flex items-center justify-between sm:justify-start space-x-2">
                     <label for="itemsPerPage" class="text-sm text-gray-700 whitespace-nowrap">Items per page:</label>
                     <select id="itemsPerPage"
                         class="block w-20 p-2 bg-white border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-                        [(ngModel)]="pagesize.limit" [ngModelOptions]="{standalone: true}" (change)="onPageSizeChange($event)">
+                        [(ngModel)]="pagesize.limit" (change)="onPageSizeChange($event)">
                         @for (size of [25, 50, 100]; track $index) {
                         <option [value]="size">{{ size }}</option>
                         }
                     </select>
                     <div class="search-form">
-                        <input placeholder="Search for..." type="text" [(ngModel)]="searchKeyword" [ngModelOptions]="{standalone: true}"
+                        <input placeholder="Search for..." type="text" [(ngModel)]="searchKeyword"
                             (input)="onSearch($event)" class="form-control search-input" />
                         @if(searchKeyword) {
                         <button type="button" class="btn-search" (click)="clearSearch()">
@@ -47,21 +46,13 @@
                         }
                     </div>
                 </div>
-                </div>
-                <div class="hidden md:block md:w-1/4"></div>
-                <div class="hidden md:block md:w-1/4">
-                </div>
-                <div class="w-full md:w-1/4 flex flex-col sm:flex-row gap-4">
-                    <div class="w-64 space-x-2">
-                        <ngx-select-dropdown [config]="config" [options]="villageList" formControlName="village">
-                        </ngx-select-dropdown>
-                    </div>
-                    <button class="btn btn-primary w-full sm:w-auto" (click)="onCreateKhasra('')">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Create Khasra
-                    </button>
-                </div>
             </div>
-        </form>
+            <div class="right-section flex flex-col sm:flex-row gap-4 sm:gap-x-2 w-full sm:w-auto">
+                <button class="btn btn-primary w-full sm:w-auto" (click)="onCreateUser('')">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Create User
+                </button>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="overflow-auto">
@@ -81,34 +72,38 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (item of khasraList | paginate: {id: 'khaID',
+                                @for (item of userList | paginate: {id: 'userID',
                                 itemsPerPage: pagesize.limit, currentPage: pagesize.offset, totalItems:
                                 pagesize.count}; track $index) {
                                 <tr>
                                     <td>{{ (pagesize.offset - 1) * pagesize.limit + $index + 1 }}</td>
-                                    <td>{{item?.village_name }}</td>
-                                    <td>{{item?.village_code }}</td>
-                                    <td>{{item?.khasra_no }}</td>
-                                    <td>{{item?.acquisition_area}}</td>
-                                    <td>{{item?.notified_area }}</td>
-                                    <td>{{item?.lmc_area }}</td>
-                                    <td>{{item?.project_area}}</td>
-                                    <td>{{item?.total_area}}</td>
-                                    <td>{{item?.created_on ? (item?.created_on | date:'dd/MM/yyyy HH:mm:ss') :
-                                        'dd/MM/yyyy'}}</td>
-                                        <td>
+                                    <td>{{item?.full_name }}</td>
+                                    <td>{{item?.login_id }}</td>
+                                    <td>{{item?.email_id }}</td>
+                                    <td>{{item?.contact_no}}</td>
+                                    <td>
                                         <span
                                             class="flex py-2 flex-col w-[70px] items-center justify-center badge badge-sm badge-dot font-semibold bg-{{item?.is_active == 1 ? 'danger' : 'success'}} cursor-pointer"
                                             (click)="onStatusActiveDeactive(item)">
                                             {{item?.is_active == 1 ? 'Deactive' : 'Active'}}
                                         </span>
                                     </td>
+                                    <td>{{item?.cur_address }}</td>
+                                    <td>
+                                        <ng-container *ngIf="item?.img_path; else noImage">
+                                            <img class="w-10 h-10 rounded-full user-image"
+                                                [src]="imgeUrl + item?.img_path" alt="User Image" />
+                                        </ng-container>
+                                        <ng-template #noImage>
+                                            <span class="text-gray-500">NA</span>
+                                        </ng-template>
+                                    </td>
                                     <td>
                                         <div class="flex space-x-2">
-                                            <button class="btn btn-success" (click)="onCreateKhasra(item)">
+                                            <button class="btn btn-success" (click)="onCreateUser(item)">
                                                 <i class="fa fa-pencil"></i>
                                             </button>
-                                            <button class="btn btn-danger" (click)="onDeleteKhasra(item)">
+                                            <button class="btn btn-danger" (click)="onUserDelete(item)">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </div>
@@ -121,9 +116,9 @@
                         }
                     </div>
                 </div>
-                @if(!khasraList?.length) {
+                @if(!userList?.length) {
                 <div class="text-center py-4 text-gray-500">
-                    No Khasra Available
+                    No User Available
                 </div>
                 }
             </div>

@@ -1,0 +1,148 @@
+<div class="flex modal-header text-center">
+    <h5>{{label}} User</h5>
+    <div class="close-modal" (click)="close()">
+        <i class="fa fa-close" style="cursor: pointer;"></i>
+    </div>
+</div>
+<div class="modal-body">
+  <form [formGroup]="userForm" (ngSubmit)="submit($event, userForm.value)"  class="needs-validation" novalidate>
+    <div class="row g-3">
+      <!-- Name Field -->
+      <div class="col-md-3">
+        <label for="name" class="form-label">Name </label>
+        <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter name">
+        @if (userForm.get('name')?.invalid && (userForm.get('name')?.dirty || userForm.get('name')?.touched)) {
+          <div class="invalid-feedback d-block">
+            @if (userForm.get('name')?.errors?.['required']) {
+              <span>Name is required</span>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Email Field -->
+      <div class="col-md-3">
+        <label for="email" class="form-label">Email </label>
+        <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter email">
+        @if (userForm.get('email')?.invalid && (userForm.get('email')?.dirty || userForm.get('email')?.touched)) {
+          <div class="invalid-feedback d-block">
+            @if (userForm.get('email')?.errors?.['required']) {
+              <span>Email is required</span>
+            }
+            @if (userForm.get('email')?.errors?.['email']) {
+              <span>Please enter a valid email</span>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Role Field -->
+      <div class="col-md-3">
+        <label for="role" class="form-label">Role </label>
+        <ngx-select-dropdown [config]="config" formControlName="role" [options]="roleData">
+        </ngx-select-dropdown>
+        @if (userForm.get('role')?.invalid && (userForm.get('role')?.dirty || userForm.get('role')?.touched)) {
+          <div class="invalid-feedback d-block">
+            @if (userForm.get('role')?.errors?.['required']) {
+              <span>Role is required</span>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Phone Field -->
+      <div class="col-md-3">
+        <label for="phone" class="form-label">Phone </label>
+        <input type="tel" class="form-control" id="phone" formControlName="phone" placeholder="Enter 10-digit number">
+        @if (userForm.get('phone')?.invalid && (userForm.get('phone')?.dirty || userForm.get('phone')?.touched)) {
+          <div class="invalid-feedback d-block">
+            @if (userForm.get('phone')?.errors?.['required']) {
+              <span>Phone is required</span>
+            }
+            @if (userForm.get('phone')?.errors?.['pattern']) {
+              <span>Please enter a valid 10-digit phone number</span>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="col-md-3">
+        <label for="loginId" class="form-label">Login ID </label>
+        <input type="text" class="form-control" id="loginId" formControlName="loginId" placeholder="Enter login ID">
+        @if (userForm.get('loginId')?.invalid && (userForm.get('loginId')?.dirty || userForm.get('loginId')?.touched)) {
+          <div class="invalid-feedback d-block">
+            @if (userForm.get('loginId')?.errors?.['required']) {
+              <span>Login ID is required</span>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Password Field -->
+      <div class="col-md-3">
+        <label for="password" class="form-label">Password </label>
+        <div class="form-group">
+          <div class="relative">
+            <input [type]="showPassword ? 'text' : 'password'" 
+                   formControlName="password" 
+                   class="form-control" placeholder="Enter Password">
+            <button type="button" 
+                    (click)="togglePasswordVisibility()" 
+                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 cursor-pointer">
+              <svg *ngIf="!showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              <svg *ngIf="showPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        @if (userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched)) {
+          <div class="invalid-feedback d-block">
+            @if (userForm.get('password')?.errors?.['required']) {
+              <span>Password is required</span>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Image Upload Field -->
+      <div class="col-md-3">
+        <label for="img_base64_str" class="form-label">Profile Image</label>
+        <div class="flex !space-x-1">
+          <div *ngIf="imagePath">
+            <img [src]="getImageUrl(imagePath)" alt="Profile Photo" class="w-8 h-8 rounded-full profile-image mb-2 user-image" />
+          </div>
+          <input type="file" class="form-control" id="img_base64_str" accept="image/*"  (change)="onFileSelected($event)"  >
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label for="loginId" class="form-label">Account Valid To </label>
+        <input type="date" class="form-control" formControlName="acc_valid_to" placeholder="dd/MM/yyy HH:mm:ss">
+        @if (userForm.get('acc_valid_to')?.invalid && (userForm.get('acc_valid_to')?.dirty || userForm.get('acc_valid_to')?.touched)) {
+          <div class="invalid-feedback d-block">
+            @if (userForm.get('acc_valid_to')?.errors?.['required']) {
+              <span>Account Valid to is required</span>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Address Field -->
+      <div class="col-12">
+        <label for="address" class="form-label">Address</label>
+        <textarea class="form-control" id="address" formControlName="address" rows="2" placeholder="Enter address"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer mt-3">
+        <button type="submit" class="btn btn-success">
+        Submit
+        </button>
+      <button type="button" class="btn btn-danger" (click)="close()">Cancel</button>
+    </div>
+  </form>
+</div>

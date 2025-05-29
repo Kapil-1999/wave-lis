@@ -1,18 +1,18 @@
 <div class="card">
     <div class="card-header">
         <div class="header-part">
-            <span>Khasra Master</span>
+            <span>Dispute Details</span>
             <div class="counting">
                 <span>
                     {{ pagesize.count > 0 ? startValue : 0 }} -
                     {{ pagesize.count > 0 ? lastValue : 0 }}
-                    OF {{ pagesize.count > 0 ? pagesize.count : 0 }} Khasra
+                    OF {{ pagesize.count > 0 ? pagesize.count : 0 }} Dispute
                 </span>
             </div>
             @if (pagesize.count && pagesize.count > 0) {
             <div class="row">
                 <div class="d-flex justify-content-center">
-                    <pagination-controls id="khaID" [maxSize]="10" [responsive]="true" [nextLabel]="''"
+                    <pagination-controls id="userID" [maxSize]="10" [responsive]="true" [nextLabel]="''"
                         [previousLabel]="''" (pageChange)="onTablePageChange($event)">
                     </pagination-controls>
                 </div>
@@ -56,8 +56,8 @@
                         <ngx-select-dropdown [config]="config" [options]="villageList" formControlName="village">
                         </ngx-select-dropdown>
                     </div>
-                    <button class="btn btn-primary w-full sm:w-auto" (click)="onCreateKhasra('')">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Create Khasra
+                    <button class="btn btn-primary w-full sm:w-auto" (click)="onCreateDispute('')">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Create Dispute
                     </button>
                 </div>
             </div>
@@ -81,22 +81,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (item of khasraList | paginate: {id: 'khaID',
+                                @for (item of disputeList | paginate: {id: 'userID',
                                 itemsPerPage: pagesize.limit, currentPage: pagesize.offset, totalItems:
                                 pagesize.count}; track $index) {
                                 <tr>
                                     <td>{{ (pagesize.offset - 1) * pagesize.limit + $index + 1 }}</td>
                                     <td>{{item?.village_name }}</td>
-                                    <td>{{item?.village_code }}</td>
                                     <td>{{item?.khasra_no }}</td>
-                                    <td>{{item?.acquisition_area}}</td>
-                                    <td>{{item?.notified_area }}</td>
-                                    <td>{{item?.lmc_area }}</td>
-                                    <td>{{item?.project_area}}</td>
-                                    <td>{{item?.total_area}}</td>
-                                    <td>{{item?.created_on ? (item?.created_on | date:'dd/MM/yyyy HH:mm:ss') :
-                                        'dd/MM/yyyy'}}</td>
-                                        <td>
+                                    <td>{{item?.disputed_type }}</td>
+                                    <td>{{item?.court_case_no}}</td>
+                                    <td>{{item?.disputed_area}}</td>
+                                    <td>{{item?.disputed_remarks}}</td>
+                                    <td>
                                         <span
                                             class="flex py-2 flex-col w-[70px] items-center justify-center badge badge-sm badge-dot font-semibold bg-{{item?.is_active == 1 ? 'danger' : 'success'}} cursor-pointer"
                                             (click)="onStatusActiveDeactive(item)">
@@ -105,10 +101,10 @@
                                     </td>
                                     <td>
                                         <div class="flex space-x-2">
-                                            <button class="btn btn-success" (click)="onCreateKhasra(item)">
+                                            <button class="btn btn-success" (click)="onCreateDispute(item)">
                                                 <i class="fa fa-pencil"></i>
                                             </button>
-                                            <button class="btn btn-danger" (click)="onDeleteKhasra(item)">
+                                            <button class="btn btn-danger" (click)="onDeleteDispute(item)">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </div>
@@ -121,9 +117,9 @@
                         }
                     </div>
                 </div>
-                @if(!khasraList?.length) {
+                @if(!disputeList?.length) {
                 <div class="text-center py-4 text-gray-500">
-                    No Khasra Available
+                    No Dispute Available
                 </div>
                 }
             </div>
