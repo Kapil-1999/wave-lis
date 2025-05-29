@@ -28,6 +28,11 @@ export class UserService {
     return this.apiService.post(API_CONSTANT.addUser, data).pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
 
+  getUserById(id: any): Observable<any> {
+    let url = API_CONSTANT.updateDeleteUser.replace('{id}', id);
+    return this.apiService.get(url).pipe(catchError((error: HttpErrorResponse) => of(error)))
+  }
+
   updateUser(payload: any): Observable<any> {
     let url = API_CONSTANT.updateDeleteUser.replace('{id}', payload.user_id);
     return this.apiService.put(url, payload).pipe(catchError((error: HttpErrorResponse) => of(error)))
@@ -36,5 +41,13 @@ export class UserService {
   deleteUser(id: any): Observable<any> {
     let url = API_CONSTANT.updateDeleteUser.replace('{id}', id);
     return this.apiService.delete(url).pipe(catchError((error: HttpErrorResponse) => of(error)))
+  }
+
+  activeDeactiveUser(id: any): Observable<any> {
+    let url = API_CONSTANT.activeDeactiveUser
+      .replace('{userId}', id)  
+    return this.apiService
+      .get(url)
+      .pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
 }

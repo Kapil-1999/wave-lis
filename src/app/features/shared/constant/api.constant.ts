@@ -4,7 +4,6 @@ export const API_CONSTANT = {
    villageList: 'Common/GetVillageList?deptId={deptId}&userId={userId}',
    plotShareDetails: 'Plot/GetPlotShareDetails?villageId={villageId}&searchText={searchText}&pageNumber={pageNumber}&pageSize={pageSize}',
    company: 'Common/GetCompanyList?deptId={deptId}&userId={userId}',
-   acquisitionList: 'Acquisition?villageId={villageId}&khasraNo={khasraNo}&farmerName={farmerName}&pageNumber={pageNumber}&pageSize={pageSize}',
    khasraBasedOnVillage: 'Common/GetKhasraNoBasedOnVilList?deptId={deptId}&userId={userId}&villageId={villageId}',
    commonFarmer: 'Common/GetFarmerListBasedOnVill?deptId={deptId}&userId={userId}&villageId={villageId}',
    addAcquisition: 'Acquisition/CreateAcquisition',
@@ -54,5 +53,12 @@ export const API_CONSTANT = {
    //dispute details api
    disputeDetails : 'Khasras/GetDisputedDetailsList?pageNo={pageNo}&pageSize={pageSize}&searchText={searchText}&villageId={villageId}',
    addDisputeDetails : 'Khasras/CreateDisputedDetails',
-   updateDisputeDetails : 'Khasras/UpdateDisputedDetails/{id}'
+   updateDisputeDetails : 'Khasras/UpdateDisputedDetails/{id}',
+   deleteDisputeDetails : 'Khasras/DeleteDisputedDetails/{id}',
+   activeDeactiveDisputeDetails : 'Khasras/DeActivateDisputedDetails?khasraId={khasraId}',
+
+   //acquisition details api
+   acquisitionList : 'Acquisitions?pageNo={pageNo}&pageSize={pageSize}&villageId={villageId}&khasraNo={khasraNo}&searchText={searchText}',
+   addAcquisitionDetails : 'Acquisitions',
+   updateAcquisitionDetails : 'Acquisitions/{id}',
 }

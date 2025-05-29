@@ -4,6 +4,8 @@ import { DisputedService } from '../../services/disputed.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommonService } from '../../../../../shared/services/common.service';
 import { CrateDisputeComponent } from '../crate-dispute/crate-dispute.component';
+import { DeleteConfirmationComponent } from '../../../../../shared/component/delete-confirmation/delete-confirmation.component';
+import { NotificationService } from '../../../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-disputed-list',
@@ -44,7 +46,8 @@ export class DisputedListComponent {
     private disputeService: DisputedService,
     private fb: FormBuilder,
     private villageService: CommonService,
-    private bsmodalService: BsModalService
+    private bsmodalService: BsModalService,
+    private notificationService : NotificationService
   ) {}
 
   ngOnInit() {
@@ -145,5 +148,50 @@ export class DisputedListComponent {
       this.pagesize.limit = 25;
       this.getDisputeList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
     });
+  }
+
+  onDeleteDispute(item: any) {
+    let url = this.disputeService.deleteDisputeDetails(item?.disputed_id);
+    const initialState: ModalOptions = {
+      initialState: {
+        title: item?.disputed_remarks,
+        content: 'Are you sure you want to delete?',
+        primaryActionLabel: 'Delete',
+        secondaryActionLabel: 'Cancel',
+        service: url
+      },
+    };
+    this.bsModalRef = this.bsmodalService.show(
+      DeleteConfirmationComponent,
+      Object.assign(initialState, {
+        id: "confirmation",
+        class: "modal-md modal-dialog-centered",
+      })
+    );
+    this.bsModalRef?.content.mapdata.subscribe(
+      (value: any) => {
+        if (value?.status == 200) {
+          this.notificationService.successAlert(value?.body?.message);
+          this.pagesize.offset = 1;
+          this.pagesize.limit = 25;
+          this.getDisputeList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+        } else {
+          this.notificationService.errorAlert(value?.title);
+        }
+      }
+    );
+  }
+
+  onStatusActiveDeactive(item: any) {
+    this.disputeService.activeDeactiveDisputeDetails(item?.disputed_id).subscribe((res: any) => {      
+      if (res?.status == 200) {
+        this.notificationService.successAlert(res?.body?.message);
+        this.pagesize.offset = 1;
+        this.pagesize.limit = 25;
+        this.getDisputeList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+      } else {
+        this.notificationService.errorAlert(res?.body?.message);
+      };
+    })
   }
 }

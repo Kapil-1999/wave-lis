@@ -37,7 +37,6 @@ export class CreateAcquisitionComponent {
   ngOnInit() {
     this.setInitialValue()
     this.getVillageList();
-    this.getCompany()
   }
 
   setInitialValue() {
@@ -65,15 +64,10 @@ export class CreateAcquisitionComponent {
 
   getVillageList() {
     this.commonService.villageList().subscribe((res: any) => {
-      this.villageList = res?.body?.result || [];
+      this.villageList = res?.body?.data || [];
     })
   }
 
-  getCompany() {
-    this.commonService.getCompany().subscribe((res: any) => {
-      this.companyList = res?.body?.result || []
-    })
-  }
 
   onChangeVillage(event:any) {
     if (!Array.isArray(event?.value)) {

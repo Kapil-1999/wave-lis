@@ -3,6 +3,8 @@ import { UserService } from '../../services/user.service';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { CreateUserComponent } from '../create-user/create-user.component';
 import { IMG_URL } from '../../../../../shared/constant/menu';
+import { DeleteConfirmationComponent } from '../../../../../shared/component/delete-confirmation/delete-confirmation.component';
+import { NotificationService } from '../../../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-user-list',
@@ -33,7 +35,8 @@ export class UserListComponent {
 
   constructor(
     private userService: UserService,
-    private modalService : BsModalService
+    private modalService : BsModalService,
+    private notificationService : NotificationService
   ) { };
 
   ngOnInit(): void {
@@ -118,5 +121,50 @@ export class UserListComponent {
       this.pagesize.limit = 25;
       this.getUserList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
     });
+  }
+
+  onUserDelete(item: any) {
+    let url = this.userService.deleteUser(item?.user_id);
+    const initialState: ModalOptions = {
+      initialState: {
+        title: item?.full_name,
+        content: 'Are you sure you want to delete?',
+        primaryActionLabel: 'Delete',
+        secondaryActionLabel: 'Cancel',
+        service: url
+      },
+    };
+    this.bsModalRef = this.modalService.show(
+      DeleteConfirmationComponent,
+      Object.assign(initialState, {
+        id: "confirmation",
+        class: "modal-md modal-dialog-centered",
+      })
+    );
+    this.bsModalRef?.content.mapdata.subscribe(
+      (value: any) => {
+        if (value?.status == 200) {
+          this.notificationService.successAlert(value?.body?.message);
+          this.pagesize.offset = 1;
+          this.pagesize.limit = 25;
+          this.getUserList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+        } else {
+          this.notificationService.errorAlert(value?.title);
+        }
+      }
+    );
+  }
+
+  onStatusActiveDeactive(item: any) {
+    this.userService.activeDeactiveUser(item?.user_id).subscribe((res: any) => {      
+      if (res?.status == 200) {
+        this.notificationService.successAlert(res?.body?.message);
+        this.pagesize.offset = 1;
+        this.pagesize.limit = 25;
+        this.getUserList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
+      } else {
+        this.notificationService.errorAlert(res?.body?.message);
+      };
+    })
   }
 }

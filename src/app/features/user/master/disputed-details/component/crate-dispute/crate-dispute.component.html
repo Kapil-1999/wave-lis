@@ -66,6 +66,12 @@
             <div class="col-md-4 mb-2">
                 <label class="form-label">Disputed Remarks</label>
                 <input type="text" class="form-control" formControlName="remarks" placeholder="Enter Disputed Remarks" />
+                @if(disputeForm.get('remarks')?.invalid && (disputeForm.get('remarks')?.dirty ||
+                disputeForm.get('remarks')?.touched)) {
+                <span class="text-danger mt-2">
+                   Disputed Remarks is Required
+                </span>
+                }
             </div>
         </div>
         <div class="modal-footer mt-3">

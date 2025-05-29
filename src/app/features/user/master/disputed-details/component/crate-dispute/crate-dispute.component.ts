@@ -45,7 +45,7 @@ export class CrateDisputeComponent {
   setInitialForm() {
     this.disputeForm = this.fb.group({
       disputeType : [null,[Validators.required]],
-      remarks : [null],
+      remarks : [null,[Validators.required]],
       courtCaseNo : [null],
       village : [null, [Validators.required]],
       khasra : [null, [Validators.required]],

@@ -14,11 +14,16 @@ export class AcquisitionService {
   ) { }
 
   acquisitionList(data: any): Observable<any> {
-    let url = API_CONSTANT.acquisitionList.replace('{pageNumber}', data.pageNo)
+    let url = API_CONSTANT.acquisitionList
+      .replace('{pageNo}', data.pageNo)
       .replace('{pageSize}', data.pageSize)
       .replace('{villageId}', data.villageId)
       .replace('{khasraNo}', data.khasraNo)
-      .replace('{farmerName}', data.farmerName);
+      if (!data.searchText) {
+        url = url.replace('&searchText={searchText}', '');
+      } else {
+        url = url.replace('{searchText}', data.searchText);
+      }
     return this.apiService
       .get(url)
       .pipe(catchError((error: HttpErrorResponse) => of(error)));

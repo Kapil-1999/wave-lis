@@ -195,3 +195,16 @@ nav.flex.tab {
     }
   }
 }
+
+img.user-image {
+  max-width: 100%;
+}
+
+.user-image {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-image:hover {
+  -webkit-transform: scale(3.5);
+  transform: scale(3.5);
+}

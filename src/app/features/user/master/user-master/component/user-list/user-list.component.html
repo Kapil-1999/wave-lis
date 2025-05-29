@@ -83,7 +83,8 @@
                                     <td>{{item?.contact_no}}</td>
                                     <td>
                                         <span
-                                            class="flex py-2 flex-col w-[70px] items-center justify-center badge badge-sm badge-dot font-semibold bg-{{item?.is_active == 1 ? 'danger' : 'success'}} cursor-pointer">
+                                            class="flex py-2 flex-col w-[70px] items-center justify-center badge badge-sm badge-dot font-semibold bg-{{item?.is_active == 1 ? 'danger' : 'success'}} cursor-pointer"
+                                            (click)="onStatusActiveDeactive(item)">
                                             {{item?.is_active == 1 ? 'Deactive' : 'Active'}}
                                         </span>
                                     </td>
@@ -97,13 +98,15 @@
                                             <span class="text-gray-500">NA</span>
                                         </ng-template>
                                     </td>
-                                    <td class="flex space-x-2">
-                                        <button class="btn btn-success">
-                                            <i class="fa fa-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-danger">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <button class="btn btn-success" (click)="onCreateUser(item)">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-danger" (click)="onUserDelete(item)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                                 }

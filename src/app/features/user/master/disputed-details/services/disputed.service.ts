@@ -35,4 +35,17 @@ export class DisputedService {
     let url = API_CONSTANT.updateDisputeDetails.replace('{id}', payload.disputed_id);
     return this.apiService.put(url, payload).pipe(catchError((error: HttpErrorResponse) => of(error)))
   }
+
+  deleteDisputeDetails(id: any): Observable<any> {
+    let url = API_CONSTANT.deleteDisputeDetails.replace('{id}', id);
+    return this.apiService.delete(url).pipe(catchError((error: HttpErrorResponse) => of(error)))
+  }
+
+  activeDeactiveDisputeDetails(id: any): Observable<any> {
+    let url = API_CONSTANT.activeDeactiveDisputeDetails
+      .replace('{khasraId}', id)  
+    return this.apiService
+      .get(url)
+      .pipe(catchError((error: HttpErrorResponse) => of(error)));
+  }
 }
