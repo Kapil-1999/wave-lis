@@ -32,6 +32,9 @@ import { CreateUserComponent } from './user-master/component/create-user/create-
 import { ManageDisputedComponent } from './disputed-details/pages/manage-disputed/manage-disputed.component';
 import { DisputedListComponent } from './disputed-details/component/disputed-list/disputed-list.component';
 import { CrateDisputeComponent } from './disputed-details/component/crate-dispute/crate-dispute.component';
+import { ManageKhasraFarmerComponent } from './khasra-farmer-map/pages/manage-khasra-farmer/manage-khasra-farmer.component';
+import { KhasraFarmerListComponent } from './khasra-farmer-map/component/khasra-farmer-list/khasra-farmer-list.component';
+import { CreateKhasraFarmerComponent } from './khasra-farmer-map/component/create-khasra-farmer/create-khasra-farmer.component';
 
 
 @NgModule({
@@ -65,6 +68,9 @@ import { CrateDisputeComponent } from './disputed-details/component/crate-disput
     ManageDisputedComponent,
     DisputedListComponent,
     CrateDisputeComponent,
+    ManageKhasraFarmerComponent,
+    KhasraFarmerListComponent,
+    CreateKhasraFarmerComponent,
   ],
   imports: [
     CommonModule,

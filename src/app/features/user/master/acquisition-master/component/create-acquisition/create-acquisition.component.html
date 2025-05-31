@@ -7,132 +7,272 @@
 <div class="modal-body">
     <form [formGroup]="acquisitionForm" (ngSubmit)="submit($event, acquisitionForm.value)">
         <div class="row">
+            <!-- First Row -->
             <div class="col-md-3 mb-2">
                 <label class="form-label">Village</label>
-                <ngx-select-dropdown 
-                  [config]="config" 
-                  [options]="villageList" 
-                  formControlName="village" (change)="onChangeVillage($event)">
+                <ngx-select-dropdown [config]="config" [options]="villageList" formControlName="village"
+                    (change)="onChangeVillage($event)">
                 </ngx-select-dropdown>
-              
-                @if (acquisitionForm.get('village')?.invalid && (acquisitionForm.get('village')?.dirty || acquisitionForm.get('village')?.touched)) {
-                  <span class="text-danger mt-2">
+                @if (acquisitionForm.get('village')?.invalid && (acquisitionForm.get('village')?.dirty ||
+                acquisitionForm.get('village')?.touched)) {
+                <span class="text-danger mt-2">
                     Village is Required
-                  </span>
+                </span>
                 }
-              </div>
+            </div>
 
             <div class="col-md-3 mb-2">
                 <label class="form-label">Khasra No.</label>
                 <ngx-select-dropdown [config]="config" [options]="khasraList"
                     formControlName="khasra"></ngx-select-dropdown>
-                    @if (acquisitionForm.get('khasra')?.invalid && (acquisitionForm.get('khasra')?.dirty || acquisitionForm.get('khasra')?.touched)) {
-                        <span class="text-danger mt-2">
-                          Khasra No. is Required
-                        </span>
-                      }
+                @if (acquisitionForm.get('khasra')?.invalid && (acquisitionForm.get('khasra')?.dirty ||
+                acquisitionForm.get('khasra')?.touched)) {
+                <span class="text-danger mt-2">
+                    Khasra No. is Required
+                </span>
+                }
             </div>
 
             <div class="col-md-3 mb-2">
                 <label class="form-label">Farmer</label>
                 <ngx-select-dropdown [config]="config" [options]="farmerList"
                     formControlName="farmer"></ngx-select-dropdown>
-                    @if (acquisitionForm.get('farmer')?.invalid && (acquisitionForm.get('farmer')?.dirty || acquisitionForm.get('farmer')?.touched)) {
-                        <span class="text-danger mt-2">
-                          Farmer is Required
-                        </span>
-                      }
+                @if (acquisitionForm.get('farmer')?.invalid && (acquisitionForm.get('farmer')?.dirty ||
+                acquisitionForm.get('farmer')?.touched)) {
+                <span class="text-danger mt-2">
+                    Farmer is Required
+                </span>
+                }
             </div>
 
             <div class="col-md-3 mb-2">
                 <label class="form-label">Party</label>
-                <ngx-select-dropdown [config]="config" [options]="companyList"
-                    formControlName="company"></ngx-select-dropdown>
-                    @if (acquisitionForm.get('company')?.invalid && (acquisitionForm.get('company')?.dirty || acquisitionForm.get('company')?.touched)) {
-                        <span class="text-danger mt-2">
-                          Party is Required
-                        </span>
-                      }
+                <ngx-select-dropdown [config]="config" [options]="partyData"
+                    formControlName="party"></ngx-select-dropdown>
+                @if (acquisitionForm.get('party')?.invalid && (acquisitionForm.get('party')?.dirty ||
+                acquisitionForm.get('party')?.touched)) {
+                <span class="text-danger mt-2">
+                    Party is Required
+                </span>
+                }
+            </div>
+
+            <!-- Second Row -->
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Purchase Farmer Name</label>
+                <input type="text" class="form-control" formControlName="purchaseFarmerName"
+                    placeholder="Enter Purchase Farmer Name" />
+                @if (acquisitionForm.get('purchaseFarmerName')?.invalid &&
+                (acquisitionForm.get('purchaseFarmerName')?.dirty ||
+                acquisitionForm.get('purchaseFarmerName')?.touched)) {
+                <span class="text-danger mt-2">
+                    Purchase Farmer Name is Required
+                </span>
+                }
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Acquisition Area</label>
+                <input type="number" class="form-control" formControlName="acquistion_area"
+                    placeholder="Enter Acquisition Area" />
+                @if (acquisitionForm.get('acquistion_area')?.invalid && (acquisitionForm.get('acquistion_area')?.dirty
+                || acquisitionForm.get('acquistion_area')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if (acquisitionForm.get('acquistion_area')?.errors?.['required']) {
+                    Acquisition Area is Required
+                    }
+                    @if (acquisitionForm.get('acquistion_area')?.errors?.['minAcquisition']) {
+                    Value must be greater than 0
+                    }
+                    @if (acquisitionForm.get('acquistion_area')?.errors?.['maxAcquisition']) {
+                    Value cannot exceed total area
+                    }
+                </span>
+                }
             </div>
 
             <div class="col-md-3 mb-2">
                 <label class="form-label">Acquisition Date</label>
                 <input type="date" class="form-control" formControlName="acquisitionDate" />
-                @if (acquisitionForm.get('acquisitionDate')?.invalid && (acquisitionForm.get('acquisitionDate')?.dirty || acquisitionForm.get('acquisitionDate')?.touched)) {
-                    <span class="text-danger mt-2">
-                        Acquisition Date is Required
-                    </span>
-                  }
+                @if (acquisitionForm.get('acquisitionDate')?.invalid && (acquisitionForm.get('acquisitionDate')?.dirty
+                || acquisitionForm.get('acquisitionDate')?.touched)) {
+                <span class="text-danger mt-2">
+                    Acquisition Date is Required
+                </span>
+                }
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Total</label>
+                <input type="number" class="form-control" formControlName="total" placeholder="Enter Total"
+                    [readOnly]="true" />
+            </div>
+
+            <!-- Third Row -->
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Purchase Registry</label>
+                <input type="number" class="form-control" formControlName="purchaseRegistery"
+                    placeholder="Enter Purchase Registry" />
+                @if (acquisitionForm.get('purchaseRegistery')?.invalid &&
+                (acquisitionForm.get('purchaseRegistery')?.dirty
+                || acquisitionForm.get('purchaseRegistery')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if (acquisitionForm.get('purchaseRegistery')?.errors?.['maxValue']) {
+                    Value cannot exceed total area
+                    }
+                </span>
+                }
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Balance Registry</label>
+                <input type="number" class="form-control" formControlName="balanceRegistery"
+                    placeholder="Enter Balance Registry" />
+                @if (acquisitionForm.get('balanceRegistery')?.invalid && (acquisitionForm.get('balanceRegistery')?.dirty
+                || acquisitionForm.get('balanceRegistery')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if (acquisitionForm.get('balanceRegistery')?.errors?.['maxValue']) {
+                    Value cannot exceed total area
+                    }
+                </span>
+                }
             </div>
 
             <div class="col-md-3 mb-2">
                 <label class="form-label">Purchase Karar</label>
                 <input type="number" class="form-control" formControlName="purchaseKarar"
                     placeholder="Enter Purchase Karar" />
+                @if (acquisitionForm.get('purchaseKarar')?.invalid && (acquisitionForm.get('purchaseKarar')?.dirty
+                || acquisitionForm.get('purchaseKarar')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if (acquisitionForm.get('purchaseKarar')?.errors?.['maxValue']) {
+                    Value cannot exceed total area
+                    }
+                </span>
+                }
             </div>
 
+            <!-- For Balance Karar -->
             <div class="col-md-3 mb-2">
                 <label class="form-label">Balance Karar</label>
                 <input type="number" class="form-control" formControlName="balanceKarar"
                     placeholder="Enter Balance Karar" />
+                @if (acquisitionForm.get('balanceKarar')?.invalid && (acquisitionForm.get('balanceKarar')?.dirty
+                || acquisitionForm.get('balanceKarar')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if (acquisitionForm.get('balanceKarar')?.errors?.['maxValue']) {
+                    Value cannot exceed total area
+                    }
+                </span>
+                }
             </div>
 
-            <div class="col-md-3 mb-2">
-                <label class="form-label">Balance Registery</label>
-                <input type="number" class="form-control" formControlName="balanceRegistery"
-                    placeholder="Enter Balance Registery" />
-            </div>
-
-            <div class="col-md-3 mb-2">
-                <label class="form-label">Purchase Registery</label>
-                <input type="number" class="form-control" formControlName="purchaseRegistery"
-                    placeholder="Enter Purchase Registery" />
-            </div>
-
-            <div class="col-md-3 mb-2">
-                <label class="form-label">Transfer Suncity</label>
-                <input type="number" class="form-control" formControlName="transferSuncity"
-                    placeholder="Enter Transfer Suncity" />
-            </div>
-
-            <div class="col-md-3 mb-2">
-                <label class="form-label">Left Abadi</label>
-                <input type="number" class="form-control" formControlName="leftAbadi" placeholder="Enter Left Abadi" />
-            </div>
-
+            <!-- For Abadi Alloted -->
             <div class="col-md-3 mb-2">
                 <label class="form-label">Abadi Alloted</label>
                 <input type="number" class="form-control" formControlName="abadiAlloted"
                     placeholder="Enter Abadi Alloted" />
+                @if (acquisitionForm.get('abadiAlloted')?.invalid && (acquisitionForm.get('abadiAlloted')?.dirty
+                || acquisitionForm.get('abadiAlloted')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if (acquisitionForm.get('abadiAlloted')?.errors?.['maxValue']) {
+                    Value cannot exceed total area
+                    }
+                </span>
+                }
             </div>
 
-            <div class="col-md-3 mb-2">
-                <label class="form-label">Dispute Area</label>
-                <input type="text" class="form-control" formControlName="disputeArea"
-                    placeholder="Enter Dispute Area" />
-            </div>
-
-            <div class="col-md-3 mb-2">
-                <label class="form-label">Lmc Resume</label>
-                <input type="number" class="form-control" formControlName="lmcResume" placeholder="Enter Lmc Resume" />
-            </div>
-
+            <!-- For Lmc Leased -->
             <div class="col-md-3 mb-2">
                 <label class="form-label">Lmc Leased</label>
                 <input type="number" class="form-control" formControlName="lmcLeased" placeholder="Enter Lmc Leased" />
+                @if (acquisitionForm.get('lmcLeased')?.invalid && (acquisitionForm.get('lmcLeased')?.dirty
+                || acquisitionForm.get('lmcLeased')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if (acquisitionForm.get('lmcLeased')?.errors?.['maxValue']) {
+                    Value cannot exceed total area
+                    }
+                </span>
+                }
             </div>
 
+            <!-- For Transfer Suncity -->
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Transfer Suncity</label>
+                <input type="number" class="form-control" formControlName="transferSuncity"
+                    placeholder="Enter Transfer Suncity" />
+                @if (acquisitionForm.get('transferSuncity')?.invalid && (acquisitionForm.get('transferSuncity')?.dirty
+                || acquisitionForm.get('transferSuncity')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if (acquisitionForm.get('transferSuncity')?.errors?.['maxValue']) {
+                    Value cannot exceed total area
+                    }
+                </span>
+                }
+            </div>
+
+            <!-- For Dispute Area -->
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Dispute Area</label>
+                <input type="number" class="form-control" formControlName="disputeArea"
+                    placeholder="Enter Dispute Area" />
+                @if (acquisitionForm.get('disputeArea')?.invalid && (acquisitionForm.get('disputeArea')?.dirty
+                || acquisitionForm.get('disputeArea')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if (acquisitionForm.get('disputeArea')?.errors?.['maxValue']) {
+                    Value cannot exceed total area
+                    }
+                </span>
+                }
+            </div>
+
+            <!-- For Court Area -->
             <div class="col-md-3 mb-2">
                 <label class="form-label">Court Area</label>
                 <input type="number" class="form-control" formControlName="courtArea" placeholder="Enter Court Area" />
+                @if (acquisitionForm.get('courtArea')?.invalid && (acquisitionForm.get('courtArea')?.dirty
+                || acquisitionForm.get('courtArea')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if (acquisitionForm.get('courtArea')?.errors?.['maxValue']) {
+                    Value cannot exceed total area
+                    }
+                </span>
+                }
             </div>
 
             <div class="col-md-3 mb-2">
+                <label class="form-label">Document</label>
+                <select class="form-control" formControlName="document">
+                    <option value=null>Select Document Type</option>
+                    <option *ngFor="let value of documentType" [ngValue]="value.value">{{ value.text }}</option>
+                </select>
+                @if (acquisitionForm.get('document')?.invalid && (acquisitionForm.get('document')?.dirty ||
+                acquisitionForm.get('document')?.touched)) {
+                <span class="text-danger mt-2">
+                    Document Type is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-lable">File</label>
+                <input type="file" class="form-control" formControlName="doc_base64_str"
+                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" (change)="onFileSelected($event)" />
+                @if (acquisitionForm.get('doc_base64_str')?.invalid && (acquisitionForm.get('doc_base64_str')?.dirty ||
+                acquisitionForm.get('doc_base64_str')?.touched)) {
+                <span class="text-danger mt-2">
+                    File is Required
+                </span>
+                }
+            </div>
+
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Case Remark</label>
-                <input type="text" class="form-control" formControlName="caseRemark" placeholder="Enter Case Remark" />
+                <textarea class="form-control" formControlName="caseRemark" placeholder="Enter Case Remark"
+                    rows="3"></textarea>
             </div>
         </div>
-        <div class="footer">
+
+        <div class="footer mt-3">
             <div class="button-container">
                 <button class="btn btn-success" type="submit">Submit</button>
                 <button class="btn btn-danger" type="button" (click)="close()">Cancel</button>
