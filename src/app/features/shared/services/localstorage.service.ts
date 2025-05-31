@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../core/app.reducer';
+import { selectToken } from '../../../core/app.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
   constructor(
+    private store : Store<AppState>
   ) { }
   private isLocalStorageAvailable(): boolean {
     try {
@@ -70,4 +74,12 @@ export class LocalStorageService {
   // isLoggedIn() {
   //   return token !== null;
   // }
+
+  getToken(): string | null {
+    let tokenValue: string | null = null;
+    this.store.select(selectToken).subscribe(token => {
+      tokenValue = token;
+    });
+    return tokenValue;
+  }
 }

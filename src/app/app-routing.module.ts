@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './features/shared/layout/main-layout/main-layout.component';
 import { PageNotFoundComponent } from './features/shared/component/page-not-found/page-not-found.component';
+import { authGuard } from './features/shared/auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/user/map/map-view', pathMatch: 'full' },
