@@ -13,7 +13,7 @@ const routes: Routes = [
     path : 'activities', loadChildren : () => import("./activities/activities.module").then((m) => m.ActivitiesModule)
   },
   {
-    path : 'master',     canActivate : [authGuard], loadChildren : () => import("./master/master.module").then((m) => m.MasterModule)
+    path : 'master',  canActivate : [authGuard], loadChildren : () => import("./master/master.module").then((m) => m.MasterModule)
   },
   {
     path : 'report', loadChildren : () => import("./reports/reports.module").then((m) => m.ReportsModule)
