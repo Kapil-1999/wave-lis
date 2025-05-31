@@ -90,4 +90,11 @@ villageList(): Observable<any> {
      .get(url)
      .pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
+
+  partyList() {
+    const url = API_CONSTANT.partyList
+    return this.apiService
+     .get(url)
+     .pipe(catchError((error: HttpErrorResponse) => of(error)));
+  }
 }

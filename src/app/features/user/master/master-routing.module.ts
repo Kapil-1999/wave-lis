@@ -12,6 +12,7 @@ import { ManageDoucmentComponent } from './document-management/pages/manage-douc
 import { ManageSateliteComponent } from './satelite-master/pages/manage-satelite/manage-satelite.component';
 import { ManageMenuComponent } from './menu-master/pages/manage-menu/manage-menu.component';
 import { ManageDisputedComponent } from './disputed-details/pages/manage-disputed/manage-disputed.component';
+import { ManageKhasraFarmerComponent } from './khasra-farmer-map/pages/manage-khasra-farmer/manage-khasra-farmer.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,9 @@ const routes: Routes = [
   },
   {
     path :'dispute-master', component : ManageDisputedComponent
+  },
+  {
+    path : 'khasra-farmer-map' ,  component : ManageKhasraFarmerComponent
   }
 ];
 

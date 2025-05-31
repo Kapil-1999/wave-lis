@@ -1,13 +1,8 @@
 export const API_CONSTANT = {
    summaryData: 'Dashboard/GetSummaryDashboardData?phaseNo={phaseNo}',
    mapReports: 'Dashboard/GetDashboardDataBasedOnTab',
-   villageList: 'Common/GetVillageList?deptId={deptId}&userId={userId}',
    plotShareDetails: 'Plot/GetPlotShareDetails?villageId={villageId}&searchText={searchText}&pageNumber={pageNumber}&pageSize={pageSize}',
    company: 'Common/GetCompanyList?deptId={deptId}&userId={userId}',
-   khasraBasedOnVillage: 'Common/GetKhasraNoBasedOnVilList?deptId={deptId}&userId={userId}&villageId={villageId}',
-   commonFarmer: 'Common/GetFarmerListBasedOnVill?deptId={deptId}&userId={userId}&villageId={villageId}',
-   addAcquisition: 'Acquisition/CreateAcquisition',
-   deleteAcquisition: 'Acquisition/DeleteAcquisitionData?id={id}&villageId={villageId}&khasraNo={khasraNo}',
    plotList: 'Plot/GetPlotListDetails_khasra?villageId={villageId}&khasraNo={khasraNo}&pageNumber={pageNumber}&pageSize={pageSize}',
    farmerReport: 'Report/GetVillagePurchageReport?userId={userId}&reportType={reportType}&villageId={villageId}&farmerId={farmerId}&pageNumber={pageNumber}&pageSize={pageSize}',
    consolidatedList: 'Chart/GetVillageSummaryDataForChart?villageId={villageId}&khasraNo={khasraNo}&pageNumber={pageNumber}&pageSize={pageSize}',
@@ -56,9 +51,17 @@ export const API_CONSTANT = {
    updateDisputeDetails : 'Khasras/UpdateDisputedDetails/{id}',
    deleteDisputeDetails : 'Khasras/DeleteDisputedDetails/{id}',
    activeDeactiveDisputeDetails : 'Khasras/DeActivateDisputedDetails?khasraId={khasraId}',
+   khasraDisputedArea : 'Khasras/GetKhasraDisputedData?villageId={villageId}&khasraId={khasraId}',
 
    //acquisition details api
    acquisitionList : 'Acquisitions?pageNo={pageNo}&pageSize={pageSize}&villageId={villageId}&khasraNo={khasraNo}&searchText={searchText}',
-   addAcquisitionDetails : 'Acquisitions',
-   updateAcquisitionDetails : 'Acquisitions/{id}',
+   addAcquisition : 'Acquisitions',
+   updateDeleteAcquisition: 'Acquisitions/{id}',
+   partyList : 'Acquisitions/GetPartyList',
+
+   //khasra farmer api here
+   khasraFarmerList : 'Farmers/GetKhasraFarmerList?pageNo={pageNo}&pageSize={pageSize}&villageId={villageId}&searchText={searchText}',
+   addKhasraFarmer : 'Farmers/MappingKhasraFarmer',
+   updateKhasraFarmer : 'Farmers/UpdateKhasraFarmer/{id}',
+   DeleteKhasraFarmer : 'Farmers/DeleteKhasraFarmer/{id}'
 }

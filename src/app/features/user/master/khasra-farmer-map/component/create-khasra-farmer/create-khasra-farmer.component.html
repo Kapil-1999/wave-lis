@@ -1,0 +1,51 @@
+<div class="flex modal-header text-center">
+    <h5>{{label}} Khasra</h5>
+    <div class="close-modal" (click)="close()">
+        <i class="fa fa-close" style="cursor: pointer;"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <form [formGroup]="khasraFarmerForm" (ngSubmit)="submit($event, khasraFarmerForm.value)">
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                <label class="form-label">Village</label>
+                <ngx-select-dropdown [config]="config" [options]="villageList" formControlName="village">
+                </ngx-select-dropdown>
+                @if (khasraFarmerForm.get('village')?.invalid && (khasraFarmerForm.get('village')?.dirty ||
+                khasraFarmerForm.get('village')?.touched)) {
+                <span class="text-danger mt-2">
+                    Village is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-6 mb-2">
+                <label class="form-label">Khasra</label>
+                <ngx-select-dropdown [config]="config" [options]="khasraList" formControlName="khasra">
+                </ngx-select-dropdown>
+                @if (khasraFarmerForm.get('khasra')?.invalid && (khasraFarmerForm.get('khasra')?.dirty ||
+                khasraFarmerForm.get('khasra')?.touched)) {
+                <span class="text-danger mt-2">
+                    Khasra is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-6 mb-2">
+                <label class="form-label">Farmer</label>
+                <ngx-select-dropdown [config]="config" [options]="farmerList" formControlName="farmer">
+                </ngx-select-dropdown>
+                @if (khasraFarmerForm.get('farmer')?.invalid && (khasraFarmerForm.get('farmer')?.dirty ||
+                khasraFarmerForm.get('farmer')?.touched)) {
+                <span class="text-danger mt-2">
+                    Farmer is Required
+                </span>
+                }
+            </div>
+        </div>
+        <div class="footer">
+            <div class="button-container">
+                <button class="btn btn-success" type="submit">Submit</button>
+                <button class="btn btn-danger" type="button" (click)="close()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

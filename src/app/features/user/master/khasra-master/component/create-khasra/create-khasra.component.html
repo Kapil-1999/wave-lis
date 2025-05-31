@@ -32,16 +32,17 @@
             <div class="col-md-3 mb-2">
                 <label class="form-label">Total Area</label>
                 <input type="number" class="form-control" formControlName="total_area" placeholder="Enter Total Area" />
-                @if(khasraForm.get('total_area')?.invalid && (khasraForm.get('total_area')?.dirty || khasraForm.get('total_area')?.touched)) {
-        <span class="text-danger mt-2">
-            @if(khasraForm.get('total_area')?.errors?.['required']) {
-                Total Area is required
-            }
-            @if(khasraForm.get('total_area')?.errors?.['min']) {
-                Total Area must be greater than 0
-            }
-        </span>
-    }
+                @if(khasraForm.get('total_area')?.invalid && (khasraForm.get('total_area')?.dirty ||
+                khasraForm.get('total_area')?.touched)) {
+                <span class="text-danger mt-2">
+                    @if(khasraForm.get('total_area')?.errors?.['required']) {
+                    Total Area is required
+                    }
+                    @if(khasraForm.get('total_area')?.errors?.['min']) {
+                    Total Area must be greater than 0
+                    }
+                </span>
+                }
             </div>
             <div class="col-md-3 mb-2">
                 <label class="form-label">Acquisition Area</label>
