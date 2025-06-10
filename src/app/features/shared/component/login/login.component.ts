@@ -57,7 +57,7 @@ export class LoginComponent {
         this.notificationService.showSuccess(res?.body?.message);
         this.closeLogin();
       }  else {
-        this.notificationService.showError(res?.body?.actionResponse);
+        this.notificationService.showError(res?.body?.message);
       }   
     })
   }

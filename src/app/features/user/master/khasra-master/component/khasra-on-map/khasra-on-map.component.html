@@ -1,0 +1,27 @@
+<div class="flex modal-header text-center">
+    <h5>Khasra Boundary</h5>
+    @if(!khasraBoundryData?.length && !isLoading) {
+    <div class="alert alert-info mb-0" role="alert">
+        No Khasra data available for this Village
+    </div>
+    }
+    <div class="close-modal" (click)="close()">
+        <i class="fa fa-close" style="cursor: pointer;"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <div class="map-part">
+        <div class="map-container">
+            <div id="khasra_map"></div>
+            <div class="map-control-panel">
+                <h4>Khasra Layers</h4>
+                <div *ngFor="let key of layerGroupKeys">
+                    <label>
+                        <input type="checkbox" checked (change)="toggleLayer(key, $event)" />
+                        {{ key }}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

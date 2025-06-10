@@ -13,7 +13,8 @@ export const API_CONSTANT = {
    //new api start from here
    userLogin: 'Auth/Login',
    menuList: 'Menus',
-   weatherData: 'WeatherData?lat={lat}&lon={lon}&radius={radius}&fromDate={fromDate}&toDate={toDate}',
+   weatherData: 'Weather?lat={lat}&lon={lon}&radius={radius}&fromDate={fromDate}&toDate={toDate}',
+   dayNightWeatherData : 'Weather/{id}',
 
    //village api
    villageData: 'Villages?pageNo={pageNo}&pageSize={pageSize}&searchText={searchText}',
@@ -26,6 +27,7 @@ export const API_CONSTANT = {
    addKhasra: 'Khasras',
    updateDeleteKhasra: 'Khasras/{id}',
    activeDeactiveKhasra : 'Khasras/DeActivateKhasra?khasraId={khasraId}',
+   khasraBoundaryData:'Khasras/GetKhasraBoundaryData?villageId={villageId}&khasraNo={khasraNo}',
 
    //farmer api
    farmerList: 'Farmers?pageNo={pageNo}&pageSize={pageSize}&villageId={villageId}&searchText={searchText}',

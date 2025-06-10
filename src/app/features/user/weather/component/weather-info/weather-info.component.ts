@@ -32,10 +32,10 @@ export class WeatherInfoComponent {
   weatherData: any;
   fromDate: Date = new Date();
   toDate: Date = new Date();
-  isLoading : boolean = false;
+  isLoading: boolean = false;
   constructor(
     private weatherService: WeatherService,
-    private datePipe : DatePipe
+    private datePipe: DatePipe
   ) { };
 
 
@@ -119,7 +119,31 @@ export class WeatherInfoComponent {
     if (this.currentExpandedRow && this.currentExpandedRow !== day) {
       this.currentExpandedRow.showDetails = false;
     }
+
     day.showDetails = !day.showDetails;
     this.currentExpandedRow = day.showDetails ? day : null;
+
+    if (day.showDetails) {
+      this.fetchDetailsForDay(day?.forecastId);
+    }
   }
+
+  dayNigthData: any;
+  fetchDetailsForDay(id: any) {
+    this.weatherService.getWeatherDayNightData(id).subscribe((res: any) => {
+      console.log(res);
+      const data = res?.body?.data
+      const day = data.find((d:any) => d.forecastType === 'Day');
+      const night = data.find((d:any) => d.forecastType === 'Night');
+
+      this.dayNigthData = {
+        forecastDay: day?.forecastDay || night?.forecastDay,
+        day: { ...day },
+        night: { ...night }
+      };  
+      console.log(this.dayNigthData);
+          
+    })
+  }
+
 }
