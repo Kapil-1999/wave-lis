@@ -7,6 +7,8 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { DeleteConfirmationComponent } from '../../../../../shared/component/delete-confirmation/delete-confirmation.component';
 import { NotificationService } from '../../../../../shared/services/notification.service';
 import { VilageService } from '../../../village-master/service/vilage.service';
+import { Title } from '@angular/platform-browser';
+import { KhasraOnMapComponent } from '../khasra-on-map/khasra-on-map.component';
 
 @Component({
   selector: 'app-khasra-list',
@@ -63,7 +65,7 @@ export class KhasraListComponent {
     this.searchForm = this.fb.group({
       village: [null],
     })
-    this.searchForm.get('village')?.valueChanges.subscribe((value) => {      
+    this.searchForm.get('village')?.valueChanges.subscribe((value) => {
       this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
     })
   }
@@ -74,14 +76,15 @@ export class KhasraListComponent {
       { key: 'Village Name', title: 'Village Name' },
       { key: 'Village Code', title: 'Village Code' },
       { key: 'Khasra No', title: 'Khasra No' },
-      {key: 'acquisition_area', title : 'Acquisition Area'},
+      { key: 'acquisition_area', title: 'Acquisition Area' },
       { key: 'Notified Area', title: 'Notified Area' },
       { key: 'Lmc Area', title: 'Lmc Area' },
       { key: 'Project Area', title: 'Project Area' },
-      {key : 'total Area', title : 'Total Area'},
+      { key: 'total Area', title: 'Total Area' },
       { key: 'Registration Date', title: 'Registration Date' },
       { key: 'Status', title: 'Status' },
-      { key: 'Action', title: 'Action' }
+      { key: 'Action', title: 'Action' },
+      // { key: '', title: 'Show on map' }
     ]
   }
 
@@ -91,12 +94,12 @@ export class KhasraListComponent {
     })
   }
 
-  getKhasraList(pagedata: any, tableSize: any , searchKeyword: any) {
+  getKhasraList(pagedata: any, tableSize: any, searchKeyword: any) {
     this.isLoading = true;
     let data = {
       pageNumber: pagedata,
       pageSize: tableSize,
-      villageId : Array.isArray(this.searchForm.get('village')?.value) ? 0 : (this.searchForm.get('village')?.value?.value || 0),
+      villageId: Array.isArray(this.searchForm.get('village')?.value) ? 0 : (this.searchForm.get('village')?.value?.value || 0),
       searchText: searchKeyword
     }
     this.khasraService.khasraList(data).subscribe((res: any) => {
@@ -109,7 +112,7 @@ export class KhasraListComponent {
   onPageSizeChange(event: Event): void {
     const selectedSize = parseInt((event.target as HTMLSelectElement).value, 10);
     this.pagesize.limit = selectedSize;
-      this.pagesize.offset = 1;
+    this.pagesize.offset = 1;
     this.getKhasraList(this.pagesize.offset, this.pagesize.limit, this.searchKeyword)
   }
 
@@ -187,7 +190,7 @@ export class KhasraListComponent {
   }
 
   onStatusActiveDeactive(item: any) {
-    this.khasraService.activeDeactiveKhasra(item?.khasra_id).subscribe((res: any) => {      
+    this.khasraService.activeDeactiveKhasra(item?.khasra_id).subscribe((res: any) => {
       if (res?.status == 200) {
         this.notificationSerivce.successAlert(res?.body?.message);
         this.pagesize.offset = 1;
@@ -197,5 +200,19 @@ export class KhasraListComponent {
         this.notificationSerivce.errorAlert(res?.body?.message);
       };
     })
+  }
+
+  onShowKhasra(value: any) {
+    const initialState: ModalOptions = {
+      initialState: {
+        editData: value ? value : ''
+      },
+    };
+    this.bsModalRef = this.bsmodalService.show(
+      KhasraOnMapComponent,
+      Object.assign(initialState, {
+        class: 'modal-xl modal-dialog-centered alert-popup',
+      })
+    );
   }
 }

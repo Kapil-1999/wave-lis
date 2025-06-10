@@ -18,4 +18,11 @@ export class WeatherService {
     return this.apiService.getWeather(url)
       .pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
+
+  
+  getWeatherDayNightData(id: any): Observable<any> {
+    let url = API_CONSTANT.dayNightWeatherData.replace('{id}', id);
+    return this.apiService.getWeather(url)
+      .pipe(catchError((error: HttpErrorResponse) => of(error)));
+  }
 }

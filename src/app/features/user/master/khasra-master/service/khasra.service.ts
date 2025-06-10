@@ -45,7 +45,20 @@ export class KhasraService {
 
   activeDeactiveKhasra(id: any): Observable<any> {
     let url = API_CONSTANT.activeDeactiveKhasra
-      .replace('{khasraId}', id)  
+      .replace('{khasraId}', id)
+    return this.apiService
+      .get(url)
+      .pipe(catchError((error: HttpErrorResponse) => of(error)));
+  }
+
+  khasraBoundaryData(data: any): Observable<any> {
+    let url = API_CONSTANT.khasraBoundaryData
+      .replace('{villageId}', data?.villageId)
+    if (!data.khasraNo) {
+      url = url.replace('&khasraNo={khasraNo}', '');
+    } else {
+      url = url.replace('{khasraNo}', data.khasraNo);
+    }
     return this.apiService
       .get(url)
       .pipe(catchError((error: HttpErrorResponse) => of(error)));

@@ -1,0 +1,28 @@
+#khasra_map {
+    width: 100%;
+    height: calc(100vh - 140px);
+    border-radius: 11px;
+    z-index: 0 !important;
+  }
+
+ #khasra_map {
+    width: 100%;
+    height: calc(100vh - 140px);
+    border-radius: 11px;
+    z-index: 0 !important;
+  }
+
+// khasra-on-map.component.scss
+.map-control-panel {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  z-index: 999;
+  background: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
