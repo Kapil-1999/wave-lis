@@ -33,6 +33,8 @@ export class WeatherInfoComponent {
   fromDate: Date = new Date();
   toDate: Date = new Date();
   isLoading: boolean = false;
+  minYearDate = new Date(2010, 0, 1); 
+  maxYearDate = new Date(2026, 11, 31);
   constructor(
     private weatherService: WeatherService,
     private datePipe: DatePipe
@@ -44,11 +46,16 @@ export class WeatherInfoComponent {
   }
 
   onYearChange(date: Date) {
-    if (date) {
+  if (date) {
+    const year = date.getFullYear();
+    if (year >= 2010 && year <= 2026) {
       this.selectedYear = date;
       this.setInitialMonth();
+    } else {
+      this.selectedYear = new Date();
     }
   }
+}
 
   onMonthSelect(month: string) {
     this.selectedMonth = month;
@@ -88,8 +95,6 @@ export class WeatherInfoComponent {
     } else {
       this.toDate = new Date(selectedYear, selectedMonthIndex + 1, 0);
     }
-    console.log();
-
     this.getWeatherWiseData()
   }
 
@@ -128,21 +133,18 @@ export class WeatherInfoComponent {
     }
   }
 
-  dayNigthData: any;
+  dayNigthData: any = {};
   fetchDetailsForDay(id: any) {
     this.weatherService.getWeatherDayNightData(id).subscribe((res: any) => {
-      console.log(res);
-      const data = res?.body?.data
-      const day = data.find((d:any) => d.forecastType === 'Day');
-      const night = data.find((d:any) => d.forecastType === 'Night');
+      const data:any = res?.body?.data || [];
+      const day = data?.find((d:any) => d.forecastType === 'Day');
+      const night = data?.find((d:any) => d.forecastType === 'Night');
 
       this.dayNigthData = {
         forecastDay: day?.forecastDay || night?.forecastDay,
         day: { ...day },
         night: { ...night }
-      };  
-      console.log(this.dayNigthData);
-          
+      };            
     })
   }
 
