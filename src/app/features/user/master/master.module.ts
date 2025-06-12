@@ -36,6 +36,7 @@ import { ManageKhasraFarmerComponent } from './khasra-farmer-map/pages/manage-kh
 import { KhasraFarmerListComponent } from './khasra-farmer-map/component/khasra-farmer-list/khasra-farmer-list.component';
 import { CreateKhasraFarmerComponent } from './khasra-farmer-map/component/create-khasra-farmer/create-khasra-farmer.component';
 import { KhasraOnMapComponent } from './khasra-master/component/khasra-on-map/khasra-on-map.component';
+import { AddKhasraDocumentComponent } from './document-management/component/add-khasra-document/add-khasra-document.component';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import { KhasraOnMapComponent } from './khasra-master/component/khasra-on-map/kh
     KhasraFarmerListComponent,
     CreateKhasraFarmerComponent,
     KhasraOnMapComponent,
+    AddKhasraDocumentComponent,
   ],
   imports: [
     CommonModule,

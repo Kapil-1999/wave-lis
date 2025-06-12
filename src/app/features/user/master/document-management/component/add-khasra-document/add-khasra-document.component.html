@@ -1,0 +1,78 @@
+<div class="flex modal-header text-center">
+    <h5>{{label}} Upload</h5>
+    <div class="close-modal" (click)="close()">
+        <i class="fa fa-close" style="cursor: pointer;"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <form [formGroup]="documentForm" (ngSubmit)="submit($event,documentForm.value)">
+        <div class="row">
+            <div class="col-md-4 mb-2">
+                <label class="form-label">Village</label>
+                <ngx-select-dropdown [config]="config" [options]="villageList" formControlName="village"
+                    (change)="onChangeVillage($event)">
+                </ngx-select-dropdown>
+                @if (documentForm.get('village')?.invalid && (documentForm.get('village')?.dirty ||
+                documentForm.get('village')?.touched)) {
+                <span class="text-danger mt-2">
+                    Village is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-4 mb-2">
+                <label class="form-label">Khasra</label>
+                <ngx-select-dropdown [config]="config" [options]="khasraList" formControlName="khasra">
+                </ngx-select-dropdown>
+                @if (documentForm.get('khasra')?.invalid && (documentForm.get('khasra')?.dirty ||
+                documentForm.get('khasra')?.touched)) {
+                <span class="text-danger mt-2">
+                    Khasra is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-4 mb-2">
+                <label class="form-label">Document Type</label>
+                <select class="form-control" formControlName="doc_type">
+                    <option value=null>Select Document Type</option>
+                    <option *ngFor="let value of documentType" [ngValue]="value.value">{{ value.text }}</option>
+                </select>
+                @if (documentForm.get('doc_type')?.invalid && (documentForm.get('doc_type')?.dirty ||
+                documentForm.get('doc_type')?.touched)) {
+                <span class="text-danger mt-2">
+                    Document Type is Required
+                </span>
+                }
+            </div>
+            <div class="col-md-4 mb-2">
+                <label class="form-label">Document</label>
+                <input type="file" class="form-control" formControlName="image" accept=".pdf"
+                    (change)="onFileSelected($event)" />
+
+                @if (editData?.doc_path && documentForm.get('useExistingFile')?.value) {
+                <div class="mt-2">
+                    <a [href]="getPdfUrl()" target="_blank" class="text-blue-500">
+                        <i class="fa-regular fa-file-pdf"></i> Current Document
+                    </a>
+                    <button type="button" class="btn btn-sm btn-outline-danger ms-2" (click)="removeExistingFile()">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+                }
+
+                <!-- Show validation message -->
+                @if (documentForm.errors &&
+                (documentForm.touched || documentForm.dirty)) {
+                <span class="text-danger mt-2">
+                    Document is Required
+                </span>
+                }
+            </div>
+        </div>
+        <div class="footer mt-3">
+            <div class="button-container">
+                <button class="btn btn-success" type="submit">Submit</button>
+                <button class="btn btn-danger" type="button" (click)="close()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

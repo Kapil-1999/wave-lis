@@ -1,1 +1,123 @@
-<p>upload-document works!</p>
+<div class="card">
+    <div class="card-header">
+        <div class="header-part">
+            <span>Khasra Document Master</span>
+            <div class="counting">
+                <span>
+                    {{ pagesize.count > 0 ? startValue : 0 }} -
+                    {{ pagesize.count > 0 ? lastValue : 0 }}
+                    OF {{ pagesize.count > 0 ? pagesize.count : 0 }} Khasra Document
+                </span>
+            </div>
+            @if (pagesize.count && pagesize.count > 0) {
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <pagination-controls id="docID" [maxSize]="10" [responsive]="true" [nextLabel]="''"
+                        [previousLabel]="''" (pageChange)="onTablePageChange($event)">
+                    </pagination-controls>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="searchForm">
+            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                <div class="w-full md:w-1/4">
+                    <ngx-select-dropdown [config]="config" [options]="villageList" formControlName="village">
+                    </ngx-select-dropdown>
+                </div>
+                <div class="md:w-1/4">
+                    <div class="search-form">
+                        <input placeholder="Search for..." type="text" formControlName="searchKeyword"
+                            (input)="onSearch($event)" class="form-control search-input" />
+                        @if(searchForm.get('searchKeyword')?.value) {
+                        <button type="button" class="btn-search" (click)="clearSearch()">
+                            <i class="fa fa-close" aria-hidden="true"></i>
+                        </button>
+                        } @else {
+                        <button type="button" class="btn-search">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                        }
+                    </div>
+                </div>
+                <div class="w-full md:w-1/4">
+                </div>
+                <div class="w-full md:w-1/4 flex flex-col sm:flex-row gap-4 sm:justify-end">
+                    <div class="flex items-center justify-between sm:justify-start space-x-2">
+                        <label for="itemsPerPage" class="text-sm text-gray-700 whitespace-nowrap">Items per
+                            page:</label>
+                        <select id="itemsPerPage"
+                            class="block w-20 p-2 bg-white border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                            [(ngModel)]="pagesize.limit" [ngModelOptions]="{standalone: true}"
+                            (change)="onPageSizeChange($event)">
+                            <option *ngFor="let size of [25, 50, 100]" [value]="size">{{ size }}</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary w-full sm:w-auto"  (click)="onAddDocument('')">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Upload Document
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="overflow-auto">
+                    <div id="datatable_wrapper">
+                        @if (isLoading) {
+                        <app-loader />
+                        } @else {
+                        <table id="datatable" class="table table-striped nowrap dataTable no-footer dtr-inline"
+                            role="grid" #TABLE aria-describedby="datatable_info" style="width: 100%" width="100%">
+                            <thead>
+                                <tr role="row">
+                                    @for (vehicleHeading of columns; track $index) {
+                                    <th>
+                                        <span>{{ vehicleHeading?.title }}</span>
+                                    </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (item of documentData | paginate: {id: 'docID',
+                                itemsPerPage: pagesize.limit, currentPage: pagesize.offset, totalItems:
+                                pagesize.count}; track $index) {
+                                <tr>
+                                    <td>{{ (pagesize.offset - 1) * pagesize.limit + $index + 1 }}</td>
+                                    <td>{{item?.village_name || 'NA'}}</td>
+                                    <td>{{item?.khasra_no || 'NA'}}</td>
+                                    <td>{{item?.doc_type || 'NA'}}</td>
+                                    <td>
+                                        <a [href]="imageUrl + item?.doc_path" target="_blank"
+                                            class="text-blue-500 hover:text-blue-700 flex items-center">
+                                            <i class="fa-regular fa-file-pdf mr-2 text-xl"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="flex space-x-2">
+                                            <button class="btn btn-success" (click)="onAddDocument(item)">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        }
+                    </div>
+                </div>
+                @if(!documentData?.length) {
+                <div class="text-center py-4 text-gray-500">
+                    No Document Available
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

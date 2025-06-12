@@ -29,7 +29,7 @@ export class CreateUserComponent {
     displayKey: "role_name",
     search: true,
     height: '300px',
-    placeholder : 'Select Phase',
+    placeholder : 'Select',
   };
   imgeUrl = IMG_URL;
   imagePath: any;
@@ -68,7 +68,7 @@ export class CreateUserComponent {
         phone : this.editData?.contact_no,
         loginId : this.editData?.login_id,
         password : this.editData?.login_pass,
-        acc_valid_to : this.editData?.acc_valid_to,
+        acc_valid_to : this.commonService.getLocalDateString(this.editData?.acc_valid_to) ,
         address : this.editData?.cur_address,
         img_base64_str : null,
       });

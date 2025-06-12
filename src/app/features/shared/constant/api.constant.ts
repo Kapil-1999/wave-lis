@@ -65,5 +65,10 @@ export const API_CONSTANT = {
    khasraFarmerList : 'Farmers/GetKhasraFarmerList?pageNo={pageNo}&pageSize={pageSize}&villageId={villageId}&searchText={searchText}',
    addKhasraFarmer : 'Farmers/MappingKhasraFarmer',
    updateKhasraFarmer : 'Farmers/UpdateKhasraFarmer/{id}',
-   DeleteKhasraFarmer : 'Farmers/DeleteKhasraFarmer/{id}'
+   DeleteKhasraFarmer : 'Farmers/DeleteKhasraFarmer/{id}',
+
+   //upload document api here
+   documentList : 'Khasras/GetKhasraDocs?pageNo={pageNo}&pageSize={pageSize}&villageId={villageId}&searchText={searchText}',
+   addKhasraDoc : 'Khasras/CreateKhasraDoc',
+   updateKhasraDoc : 'Khasras/UpdateKhasraDoc'
 }
